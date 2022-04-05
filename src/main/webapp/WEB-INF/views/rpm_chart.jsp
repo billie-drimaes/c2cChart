@@ -60,7 +60,7 @@
 				}
 			function getGraph(){
 				$.ajax({
-					url:"http://localhost:8080/gsonList",
+					url:"http://52.78.209.55:8080/springTest/gsonList",
 					type:"get",
 					dataType:"json",
 					contentType:"application/json;cahrset=utf-8",
