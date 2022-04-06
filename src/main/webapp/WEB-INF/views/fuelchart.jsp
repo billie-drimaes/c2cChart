@@ -59,7 +59,11 @@
 				}
 			function getGraph_f(){
 				$.ajax({
+<<<<<<< HEAD
 					url:"http://localhost:58080/springTest/fuelList",
+=======
+					url:"http://52.78.209.55:8080/springTest/fuelList",
+>>>>>>> 92c6520bf53806f748558dc08482e804c8cc8c4b
 					type:"get",
 					dataType:"json",
 					contentType:"application/json;cahrset=utf-8",

@@ -9,26 +9,18 @@
 <body>
 <table  style="width: 500px; height: 300px;margin-top: 80px;margin-left:10;">
     <tbody>
-            <c:set var="route" value="route1" />
-            <c:forEach items="${infoList}" var="info">
-            <c:set var="infoRoute" value="${info.route}" />
-       	 <c:if test="${infoRoute eq route}" >
 	        <tr>
 	            <td bgcolor="gray">운전자</td>
-	            <td>${info.driver}</td>
+	            <td>driver1</td>
 	            <td bgcolor="gray">경로ID</td>
-        	     <td>${info.route}</td>
+        	     <td>route1</td>
 	        </tr>
 	         <tr>
 	            <td bgcolor="gray">운행일자</td>
-	             <c:set var="driveDate" value="${info.UTCdate}"/>
-	            <td>${fn:substring(driveDate,0,6)}</td>	            
+	            <td>22.04.04</td>	            
 	            <td bgcolor="gray">운행 시작시간</td>
-	            <c:set var="driveTime" value="${info.UTCtime}"/>
-	            <td>${fn:substring(driveTime,0,6)}</td>	            
-	        </tr>
-	        </c:if>
-	        </c:forEach>           
+	            <td>15:21</td>	            
+	        </tr>     
     </tbody>
 </table>
  

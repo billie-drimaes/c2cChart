@@ -26,7 +26,11 @@
 			let fuel_num = 0;
 			function getGraph_dou(){
 				$.ajax({
+<<<<<<< HEAD
 					url: location.host + "/springTest/fuelList",
+=======
+					url:"http://52.78.209.55:8080/springTest/fuelList",
+>>>>>>> 92c6520bf53806f748558dc08482e804c8cc8c4b
 					type:"get",
 					dataType:"json",
 					contentType:"application/json;cahrset=utf-8",

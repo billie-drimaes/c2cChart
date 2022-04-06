@@ -60,7 +60,11 @@
 				}
 			function getGraph(){
 				$.ajax({
+<<<<<<< HEAD
 					url:location.href + "/gsonList",
+=======
+					url:"http://52.78.209.55:8080/springTest/gsonList",
+>>>>>>> 92c6520bf53806f748558dc08482e804c8cc8c4b
 					type:"get",
 					dataType:"json",
 					contentType:"application/json;cahrset=utf-8",

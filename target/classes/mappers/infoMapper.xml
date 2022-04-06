@@ -6,7 +6,7 @@
 <mapper namespace="com.bill.mapper.infoMapper">
     
     <select id="getInfo" resultType="com.bill.vo.info.infoVO">
-        SELECT driver, route, UTCdate, UTCtime FROM concat WHERE UTCdate NOT IN('')
+        SELECT driver, route, time FROM mqttdata
     </select>
  
 </mapper>
