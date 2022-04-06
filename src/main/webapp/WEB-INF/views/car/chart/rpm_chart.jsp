@@ -60,7 +60,7 @@
 				}
 			function getGraph(){
 				$.ajax({
-					url:location.href.split('/')[0] + "/rpmList",
+					url:location.href.split('/')[0] + "/gsonList",
 					type:"get",
 					dataType:"json",
 					contentType:"application/json;cahrset=utf-8",
