@@ -12,99 +12,96 @@
 		</jsp:forward>
 		 --%>
 		<script type="text/javascript">
-		
-		/* 
-		// Create a client instance
-		//client = new Paho.MQTT.Client(location.hostname, Number(location.port), "clientId");
-		client = new Paho.MQTT.Client("61.42.251.202", 9001);//(location.hostname, Number(location.port), "clientId");
-		// set callback handlers
-		client.onConnectionLost = onConnectionLost;
-		client.onMessageArrived = onMessageArrived;
-		// connect the client
-		client.connect({onSuccess:onConnect});
-		// called when the client connects
-		function onConnect() {
-		  // Once a connection has been made, make a subscription and send a message.
-		  console.log("onConnect");
-		  client.subscribe("World");
-		  message = new Paho.MQTT.Message("Hello");
-		  message.destinationName = "World";
-		  client.send(message);
-		}
-		// called when the client loses its connection
-		function onConnectionLost(responseObject) {
-		  if (responseObject.errorCode !== 0) {
-		    console.log("onConnectionLost:"+responseObject.errorMessage);
-		  }
-		}
-		// called when a message arrives
-		function onMessageArrived(message) {
-		  console.log("onMessageArrived:"+message.payloadString);
-		}
-		 */
-		/* 
-		var express = require('express');
-		var app = express();
+		var i = 0; 
+		var mqtt;
+		var reconnectTimeout = 2000;
+		//var host ="61.42.251.202";
+		var host ="192.168.100.138";
 		var port = 9001;
-		app.use(express.static('client'));
-		var mqtt = require('mqtt');
-		var client = mqtt.connect('ws://61.42.251.202:1883', { keepalive:20 });
-		client.on('connect', function() {
-		client.subscribe('/presence')
-		setInterval(sendMsg,3000);
-		});
-		client.on('message', function(topic, message) {
-		console.log(message.toString());
-		//client.end(); 이걸 활성화 시키면 메시지를 받고 disconnect가 된다.
-		});
-		client.on('disconnect', function(response) {
-		console.log('DISCONNECT');
-		});
-		function sendMsg() {
-		client.publish('/presence','from NodeJS');
+		
+		//callback function
+		//성공 접속
+		function onConnect(){
+			mqtt.subscribe("test/#", {qos: 1}); // 토픽명
+			console.log("접속 완료"); 
 		}
-		app.listen(port);
-		 */
-			var mqtt;
-			var reconnectTimeout = 2000;
-			//var host ="61.42.251.202";
-			var host ="192.168.100.138";
-			var port = 9001;
-			var payload = "";
-			
-			//callback function
-			//성공 접속
-			function onConnect(){
-				console.log("접속 완료");
-				mqtt.subscribe("test/#", {qos: 1}); // 토픽명
+		//접속 실패
+		function onFailure(message){
+			setTimeout(mqttConnection, reconnectTimeout);
+			console.log("접속 실패");
+		}
+		//메세지가 도착하는 경우 호출
+		function onMessageArrived(msg){
+			console.log("도착.." + msg.destinationName);
+			console.log(msg.payloadString);
+			//document.getElementById("payload").innerHTML = payload;
+			/* 
+			topic :** **`test/driver/route/time/[컬럼]`
+			컬럼 : ['RPM','Speed','Runtime','Fuel','Temperature','coolantTemp','idling','batteryVolt','batteryTemp','torque','horsePower']`
+			(rpm,속도,운행시간,연료량,외부온도,냉각수온도,공회전시간,베터리전압,베터리온도,토크,마력)
+			+ 위치정보 토픽 :** **`test/driver/route/time/Latitude/Longitude/Altitude'
+			 */
+			var topic = msg.destinationName;
+			var strTopic = topic.split("test/driver/route/time/")[1];
+			var message = msg.payloadString; 
+			var strMsg = message.split("/")[3];
+			console.log("strTopic --> "+strTopic);
+			console.log("splitPayload --> " + strMsg);
+			if(strTopic=="RPM") {
+				document.getElementById("RPM").innerHTML = strMsg;
+			} 
+			if(strTopic=="Speed") {
+				document.getElementById("Speed").innerHTML = strMsg;
+			} 
+			if(strTopic=="Runtime") {
+				document.getElementById("Runtime").innerHTML = strMsg;
+			} 
+			if(strTopic=="Fuel") {
+				//document.getElementById("Fuel").innerHTML = strMsg;
+			} 
+			if(strTopic=="Temperature") {
+				document.getElementById("Temperature").innerHTML = strMsg;
+			} 
+			if(strTopic=="coolantTemp") {
+				document.getElementById("coolantTemp").innerHTML = strMsg;
+			} 
+			if(strTopic=="idling") {
+				document.getElementById("idling").innerHTML = strMsg;
+			} 
+			if(strTopic=="batteryVolt") {
+				document.getElementById("batteryVolt").innerHTML = strMsg;
+			} 
+			if(strTopic=="batteryTemp") {
+				document.getElementById("batteryTemp").innerHTML = strMsg;
+			} 
+			if(strTopic=="torque") {
+				document.getElementById("torque").innerHTML = strMsg;
+			} 
+			if(strTopic=="horsePower") {
+				document.getElementById("horsePower").innerHTML = strMsg;
+			} 
+			if(strTopic=="Latitude/Longitude/Altitude"){
+				document.getElementById("gps").innerHTML = message.split("/")[3] + "/" + message.split("/")[4] + "/" + message.split("/")[5];
 			}
-			//접속 실패
-			function onFailure(message){
-				console.log("접속 실패");
-				setTimeout(mqttConnection, reconnectTimeout);
-			}
-			//메세지가 도착하는 경우 호출
-			function onMessageArrived(msg){
-				console.log("도착.." + msg.payloadString);
-				payload = msg.payloadString;
-				console.log(msg.destinationName);
-				//alert("메세지 도착!" + msg.payloadString);
-			}
-			function mqttConnection(){
-				//mqtt클라이언트 객체 생성
-				mqtt = new Paho.MQTT.Client(host,port,"mosquitto");
-				//연결하고 callback 함수 등록
-				var options = {
-						timeout: 3,
-						onSuccess: onConnect,
-						onFailure: onFailure
-				};
-				//메세지가 도착하면 실행될 함수 등록
-				mqtt.onMessageArrived = onMessageArrived;
-				//접속
-				mqtt.connect(options);
-			}
-			
+			//alert("메세지 도착!" + msg.payloadString);
+		}
+		function mqttConnection(){
+			//mqtt클라이언트 객체 생성
+			mqtt = new Paho.MQTT.Client(host,port,"cloud-sub-client");
+			//연결하고 callback 함수 등록
+			var options = {
+					timeout: 10,
+					onSuccess: onConnect,
+					onFailure: onFailure
+					
+			};
+	
+			//메세지가 도착하면 실행될 함수 등록
+			mqtt.onMessageArrived = onMessageArrived;
+			//접속
+			mqtt.connect(options);
+		}
+		mqttConnection();
 		</script>
 		
 		<title>Insert title here</title>
