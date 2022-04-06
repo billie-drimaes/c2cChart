@@ -59,7 +59,7 @@ public class GsonController {
 
 		return gson.toJson(list);}
 
-	@RequestMapping(value = "car/fuelList", method = RequestMethod.GET, produces="text/plain;charset=UTF-8")
+	@RequestMapping(value = "fuelList", method = RequestMethod.GET, produces="text/plain;charset=UTF-8")
 
 	public @ResponseBody String fuelList(Locale locale, Model model) throws Exception {
 

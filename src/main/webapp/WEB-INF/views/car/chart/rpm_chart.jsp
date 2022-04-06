@@ -14,7 +14,7 @@
 <title>EngineRpm</title>
 </head>
 <body>
-      <div style="width: 600px; height: 250px;float: right;"><canvas id="myChart"></canvas></div>
+      <!-- <div style="width: 600px; height: 250px;float: right;"><canvas id="rpmChart"></canvas></div> -->
 <%
 	/*
 	//String route = request.getParameter("selectBox");
@@ -60,13 +60,13 @@
 				}
 			function getGraph(){
 				$.ajax({
-					url:location.href + "/gsonList",
+					url:location.href.split('/')[0] + "/gsonList",
 					type:"get",
 					dataType:"json",
 					contentType:"application/json;cahrset=utf-8",
 					//data: {time:87209,fuelLevel:78}
 					success:function(data){
-						var data_slice = data.slice(-100);
+						var data_slice = data;
 						for (let i = 0; i<data_slice.length;i++){
 		        			var data_obj = {};
 							data_obj.time = data_slice[i].time;
@@ -81,7 +81,7 @@
 				       chartName="Engine RPM"
 				       
 				        labelData_ms = cloneObject(labelData); //깊은복사
-				        var context = document.getElementById('myChart');
+				        var context = document.getElementById('rpmChart');
 
 				        if(graphChart!==undefined){
 				        	graphChart.destroy()
@@ -96,8 +96,9 @@
 								legend:{
 									display:false
 								},
-						        animation:false
-							},
+						        animation:false,
+						        maintainAspectRatio:false							
+						    },
 							data:{
 								labels:labelData,
 								datasets: [{

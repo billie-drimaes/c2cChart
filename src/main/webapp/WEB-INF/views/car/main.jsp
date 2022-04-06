@@ -19,7 +19,11 @@
 	</jsp:include>
 	
 	<!-- fuel Chart -->
-	<jsp:include page="/WEB-INF/views/car/chart/fuelchart.jsp">
+	<jsp:include page="/WEB-INF/views/car/chart/fuelchart.jsp"/>
+	<!-- rpmChart -->
+	<jsp:include page="/WEB-INF/views/car/chart/rpm_chart.jsp"/>	
+	<!-- donut chart (fuel level) -->	
+	<jsp:include page="/WEB-INF/views/car/chart/donut_17.jsp">
 		<jsp:param value="" name=""/>
 	</jsp:include>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" type="text/javascript"></script>
@@ -111,7 +115,7 @@ span
 				<table>
 					<tr>
 						<td>
-							<canvas id="fuelchart"></canvas>
+							<canvas id=doughnut-chart></canvas>
 						</td>
 					</tr>
 				</table>
@@ -222,7 +226,7 @@ span
 					<table>
 						<tr>
 							<td >
-								공회전 시간
+								<canvas id=fuelchart></canvas>
 							</td>
 						</tr>
 					</table>
@@ -231,7 +235,7 @@ span
 					<table>
 						<tr>
 							<td >
-								공회전 시간
+								<canvas id=rpmChart></canvas>
 							</td>
 						</tr>
 					</table>
