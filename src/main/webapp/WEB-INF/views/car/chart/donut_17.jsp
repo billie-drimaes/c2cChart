@@ -14,7 +14,7 @@
 <title>EngineRpm</title>
 </head>
 <body>
-    <div style="width: 500px; height: 300px;margin-left:600;margin-top:100;"><canvas id="doughnut-chart"></canvas></div>            
+    <!-- <div style="width: 500px; height: 300px;margin-left:600;margin-top:100;"><canvas id="doughnut-chart"></canvas></div> -->           
 </body>
 </html>
 <script type="text/javascript">
@@ -26,7 +26,7 @@
 			let fuel_num = 0;
 			function getGraph_dou(){
 				$.ajax({
-					url: location.href + "/fuelList",
+					url: location.href.split('/')[0] + "/fuelList",
 					type:"get",
 					dataType:"json",
 					contentType:"application/json;cahrset=utf-8",
@@ -35,8 +35,7 @@
 						var lastdata = data[data.length-1]
 						fuel_num = lastdata.Fuel
 						var fuel_time = lastdata.time
-						console.log("fuel_num  "+fuel_num)
-						console.log("fuel_time"+fuel_time)
+						console.log("fuelLevel_time"+fuel_time)
 						var data = { 
 								labels: [ 
 									"Fuel Level" 
@@ -132,7 +131,6 @@
 			});
 		    setInterval(function(){
 		    	getGraph_dou();
-		    	console.log("doughnutUpate");
 		    },3000); //3000ms: 3초간격
 
 </script>
