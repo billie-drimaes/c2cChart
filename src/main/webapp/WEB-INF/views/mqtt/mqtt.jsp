@@ -111,7 +111,7 @@
 	</head>
 	<body>
 		<script type="text/javascript">
-			mqttConnection();
+			//mqttConnection();
 		</script>
 		<!-- <input type="button" id="pub_btn" value="publish"/> -->
 	</body>

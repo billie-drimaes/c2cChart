@@ -52,29 +52,35 @@ div
 	padding: 0px 10px 10px 0px; 
 	
 } 
-
+span
+{
+	color: red;
+	font-weight: border;
+}
 </style>
 <script type="text/javascript">
+	var i = 0; 
 	var mqtt;
 	var reconnectTimeout = 2000;
 	//var host ="61.42.251.202";
-	var host ="192.168.100.138";
+	var host ="127.0.0.1";
 	var port = 9001;
 	var payload = "";
 	
 	//callback function
 	//성공 접속
 	function onConnect(){
-		console.log("접속 완료");
 		mqtt.subscribe("test/#", {qos: 1}); // 토픽명
+		console.log("접속 완료"); 
 	}
 	//접속 실패
 	function onFailure(message){
-		console.log("접속 실패");
 		setTimeout(mqttConnection, reconnectTimeout);
+		console.log("접속 실패");
 	}
 	//메세지가 도착하는 경우 호출
 	function onMessageArrived(msg){
+		console.log(i+1);
 		console.log("도착.." + msg.destinationName);
 		console.log(msg.payloadString);
 		payload = msg.payloadString;
@@ -87,35 +93,45 @@ div
 		 */
 		var topic = msg.destinationName;
 		var strTopic = topic.split("test/driver/route/time/")[1];
-		var msg = msg.payloadString; 
-		var strMsg = msg.split("/")[3];
+		var message = msg.payloadString; 
+		var strMsg = message.split("/")[3];
 		console.log("strTopic --> "+strTopic);
 		console.log("splitPayload --> " + strMsg);
 		if(strTopic=="RPM") {
 			document.getElementById("RPM").innerHTML = strMsg;
-		} else if(strTopic=="Speed") {
-			console.log("splitPayload --> " + splitPayload);
+		} 
+		if(strTopic=="Speed") {
 			document.getElementById("Speed").innerHTML = strMsg;
-		} else if(strTopic=="Runtime") {
+		} 
+		if(strTopic=="Runtime") {
 			document.getElementById("Runtime").innerHTML = strMsg;
-		} else if(strTopic=="Fuel") {
-			document.getElementById("Fuel").innerHTML = strMsg;
-		} else if(strTopic=="Temperature") {
+		} 
+		if(strTopic=="Fuel") {
+			//document.getElementById("Fuel").innerHTML = strMsg;
+		} 
+		if(strTopic=="Temperature") {
 			document.getElementById("Temperature").innerHTML = strMsg;
-		} else if(strTopic=="coolantTemp") {
+		} 
+		if(strTopic=="coolantTemp") {
 			document.getElementById("coolantTemp").innerHTML = strMsg;
-		} else if(strTopic=="idling") {
+		} 
+		if(strTopic=="idling") {
 			document.getElementById("idling").innerHTML = strMsg;
-		} else if(strTopic=="batteryVolt") {
+		} 
+		if(strTopic=="batteryVolt") {
 			document.getElementById("batteryVolt").innerHTML = strMsg;
-		} else if(strTopic=="batteryTemp") {
+		} 
+		if(strTopic=="batteryTemp") {
 			document.getElementById("batteryTemp").innerHTML = strMsg;
-		} else if(strTopic=="torque") {
+		} 
+		if(strTopic=="torque") {
 			document.getElementById("torque").innerHTML = strMsg;
-		} else if(strTopic=="horsePower") {
+		} 
+		if(strTopic=="horsePower") {
 			document.getElementById("horsePower").innerHTML = strMsg;
-		} else {
-			document.getElementById("gps").innerHTML = strMsg;
+		} 
+		if(strTopic=="Latitude/Longitude/Altitude"){
+			document.getElementById("gps").innerHTML = message.split("/")[3] + "/" + message.split("/")[4] + "/" + message.split("/")[5];
 		}
 		//alert("메세지 도착!" + msg.payloadString);
 	}
@@ -124,10 +140,12 @@ div
 		mqtt = new Paho.MQTT.Client(host,port,"cloud-sub-client");
 		//연결하고 callback 함수 등록
 		var options = {
-				timeout: 3,
+				timeout: 10,
 				onSuccess: onConnect,
 				onFailure: onFailure
+				
 		};
+
 		//메세지가 도착하면 실행될 함수 등록
 		mqtt.onMessageArrived = onMessageArrived;
 		//접속
@@ -136,7 +154,9 @@ div
 	mqttConnection();
 </script>
 <body>
-
+<script>
+	
+</script>
 	<div style="float:left; width:100%; margin:1%;">
 		<!-- 첫번째 라인 -->
 		<div align="left" >
@@ -169,13 +189,16 @@ div
 						<th>사용자 ID</th>
 						<td></td>
 						<th>주행 거리</th>
-						<td></td>
+						<td>
+							<span id="Runtime"></span>
+						</td>
 					</tr>
 					<tr>
 						<th>차량번호</th>
 						<td></td>
 						<th>운행시간</th>
-						<td></td>
+						<td>
+						</td>
 					</tr>
 				</table>
 			</div>
@@ -236,6 +259,8 @@ div
 						<tr>
 							<td>
 								공회전 시간
+								<br>
+								<span id="idling"></span> 
 							</td>
 						</tr>
 					</table>
@@ -282,6 +307,8 @@ div
 					<tr>
 						<td>
 							map
+							<br>
+							<span id="gps"></span>
 						</td>
 					</tr>
 				</table>
