@@ -19,19 +19,19 @@ public class CarController {
 
         return "car/main";
     }
+    
+    
 	/*
 	 * public HashMap<String, String> getCarInfo() {
 	 * 
-	 * return ; }
+	 * 
+	 * }
 	 */
+	 
     
     @RequestMapping("/mqtt")
     public String mqtt(Locale locale, Model model) throws Exception{
     	
-    	InetAddress ip = InetAddress.getLocalHost(); 
-    	System.out.println("Host Name = [" + ip.getHostName() + "]"); 
-    	System.out.println("Host Address = [" + ip.getHostAddress() + "]");
-
         return "mqtt/mqtt";
     }
 }
