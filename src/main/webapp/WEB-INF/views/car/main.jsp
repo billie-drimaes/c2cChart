@@ -85,42 +85,43 @@ div
 		(rpm,속도,운행시간,연료량,외부온도,냉각수온도,공회전시간,베터리전압,베터리온도,토크,마력)
 		+ 위치정보 토픽 :** **`test/driver/route/time/Latitude/Longitude/Altitude'
 		 */
-		var destination = msg.destinationName;
-		var strTopic = destination.split("test/driver/route/time/")[1];
-		var splitTopic = strTopic.split("/")[0]; 
-		var splitPayload = payload.split("/")[4]; 
-			console.log(strTopic);
-		if(splitTopic=="RPM") {
-			document.getElementById("RPM").innerHTML = splitPayload[4];
-		} else if(splitTopic=="Speed") {
-			console.log(payload);
-			document.getElementById("Speed").innerHTML = splitPayload[4];
-		} else if(splitTopic=="Runtime") {
-			document.getElementById("Runtime").innerHTML = splitPayload[4];
-		} else if(splitTopic=="Fuel") {
-			document.getElementById("Fuel").innerHTML = splitPayload[4];
-		} else if(splitTopic=="Temperature") {
-			document.getElementById("Temperature").innerHTML = splitPayload[4];
-		} else if(splitTopic=="coolantTemp") {
-			document.getElementById("coolantTemp").innerHTML = splitPayload[4];
-		} else if(splitTopic=="idling") {
-			document.getElementById("idling").innerHTML = splitPayload[4];
-		} else if(splitTopic=="batteryVolt") {
-			document.getElementById("batteryVolt").innerHTML = splitPayload[4];
-		} else if(splitTopic=="batteryTemp") {
-			document.getElementById("batteryTemp").innerHTML = splitPayload[4];
-		} else if(splitTopic=="torque") {
-			document.getElementById("torque").innerHTML = splitPayload[4];
-		} else if(splitTopic=="horsePower") {
-			document.getElementById("horsePower").innerHTML = splitPayload[4];
+		var topic = msg.destinationName;
+		var strTopic = topic.split("test/driver/route/time/")[1];
+		var msg = msg.payloadString; 
+		var strMsg = msg.split("/")[3];
+		console.log("strTopic --> "+strTopic);
+		console.log("splitPayload --> " + strMsg);
+		if(strTopic=="RPM") {
+			document.getElementById("RPM").innerHTML = strMsg;
+		} else if(strTopic=="Speed") {
+			console.log("splitPayload --> " + splitPayload);
+			document.getElementById("Speed").innerHTML = strMsg;
+		} else if(strTopic=="Runtime") {
+			document.getElementById("Runtime").innerHTML = strMsg;
+		} else if(strTopic=="Fuel") {
+			document.getElementById("Fuel").innerHTML = strMsg;
+		} else if(strTopic=="Temperature") {
+			document.getElementById("Temperature").innerHTML = strMsg;
+		} else if(strTopic=="coolantTemp") {
+			document.getElementById("coolantTemp").innerHTML = strMsg;
+		} else if(strTopic=="idling") {
+			document.getElementById("idling").innerHTML = strMsg;
+		} else if(strTopic=="batteryVolt") {
+			document.getElementById("batteryVolt").innerHTML = strMsg;
+		} else if(strTopic=="batteryTemp") {
+			document.getElementById("batteryTemp").innerHTML = strMsg;
+		} else if(strTopic=="torque") {
+			document.getElementById("torque").innerHTML = strMsg;
+		} else if(strTopic=="horsePower") {
+			document.getElementById("horsePower").innerHTML = strMsg;
 		} else {
-			document.getElementById("gps").innerHTML = payload;
+			document.getElementById("gps").innerHTML = strMsg;
 		}
 		//alert("메세지 도착!" + msg.payloadString);
 	}
 	function mqttConnection(){
 		//mqtt클라이언트 객체 생성
-		mqtt = new Paho.MQTT.Client(host,port,"mosquitto");
+		mqtt = new Paho.MQTT.Client(host,port,"cloud-sub-client");
 		//연결하고 callback 함수 등록
 		var options = {
 				timeout: 3,
