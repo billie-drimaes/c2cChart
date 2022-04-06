@@ -24,6 +24,12 @@ header {
 	vertical-align: middle;	/* 세로축 가운데 정렬 */
 } 
 </style> 
+<!-- 
+	viewport : 사용자에게 보여지는 영역
+	width=device-width : 넓이를 기기의 크기에 맞춘다. 
+	inital-scale="1" : 초기 화면 배율을 1로 맞춘다. 
+ -->
+<meta charset="UTF-8" name = "viewport" content="width=device-width", inital-scale="1">
 <header style="border-bottom: 1px solid #ccc; padding: 15px 0; text-align: left"> 
 	<div class="category" style="margin-left: 100px;"> 
 		<ul> 

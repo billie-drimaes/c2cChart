@@ -15,7 +15,7 @@
     	
 </head>
 <body>
-      <div style="width: 600px; height: 250px; position: absolute; top:-30%,;"><canvas id="fuelchart"></canvas></div>
+      <%-- <div style="width: 600px; height: 250px; position: absolute; top:-30%,;"><canvas id="fuelchart"></canvas></div> --%>
 <%
 	/*
 	//String route = request.getParameter("selectBox");
@@ -59,7 +59,7 @@
 				}
 			function getGraph_f(){
 				$.ajax({
-					url:"http://localhost:8080/fuelList",
+					url:"http://localhost:58080/springTest/fuelList",
 					type:"get",
 					dataType:"json",
 					contentType:"application/json;cahrset=utf-8",

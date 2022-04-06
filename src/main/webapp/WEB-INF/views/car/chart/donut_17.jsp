@@ -26,7 +26,7 @@
 			let fuel_num = 0;
 			function getGraph_dou(){
 				$.ajax({
-					url: location.host + "/springTest/fuelList",
+					url: location.href + "/fuelList",
 					type:"get",
 					dataType:"json",
 					contentType:"application/json;cahrset=utf-8",
