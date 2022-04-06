@@ -17,10 +17,10 @@
 		<property name="driverClassName" value="com.mysql.cj.jdbc.Driver">
 		</property>        
 		<!-- <property name="url" value="jdbc:mysql://211.195.72.140/test?autoReconnet=True&amp;useSSL=false&amp;allowPublicKeyRetrieval=true&amp;serverTimezone=UTC"> -->
-		<property name="url" value="jdbc:mysql://c2c-database.cjsmyenwres8.ap-northeast-2.rds.amazonaws.com/obdData?autoReconnet=True&amp;useSSL=false&amp;allowPublicKeyRetrieval=true&amp;serverTimezone=UTC"> 
+		<property name="url" value="jdbc:mysql://192.168.100.134/test?autoReconnet=True&amp;useSSL=false&amp;allowPublicKeyRetrieval=true&amp;serverTimezone=UTC"> 
        </property>        
-       <property name="username" value="drimaes"></property>        
-       <property name="password" value="drim1234"></property> 
+       <property name="username" value="root"></property>        
+       <property name="password" value="1234"></property>    
     </bean>  	     
 	<!-- 	
 	    자신의 PC(로컬)에 MySql을 설치했을 경우

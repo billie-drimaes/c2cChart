@@ -59,13 +59,13 @@
 				}
 			function getGraph_f(){
 				$.ajax({
-					url: location.href.split('/')[0] + "/fuelList",
+					url:location.href + "/fuelList",
 					type:"get",
 					dataType:"json",
 					contentType:"application/json;cahrset=utf-8",
 					//data: {time:87209,fuelLevel:78}
 					success:function(data){
-						var data_slice = data;
+						var data_slice = data.slice(-100);
 						for (let i = 0; i<data_slice.length;i++){
 		        			var data_obj = {};
 							data_obj.time = data_slice[i].time;
@@ -99,8 +99,7 @@
 								legend:{
 									display:false
 								},
-						       animation:false,
-						       maintainAspectRatio:false
+						       animation:false
 
 							},
 							data:{
