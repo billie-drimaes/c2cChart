@@ -16,7 +16,7 @@
     -->
     
     <select id="selectFuel" resultType="fuelVO">
-        SELECT TIME,FUEL,ROUTE FROM mqttdata WHERE Fuel NOT IN('');
+        SELECT time,FUEL FROM mqttdata WHERE Fuel NOT IN('');
     </select>
  
  
