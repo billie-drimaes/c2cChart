@@ -18,9 +18,12 @@
 		<beans:property name="prefix" value="/WEB-INF/views/" />		
 		<beans:property name="suffix" value=".jsp" />	
 	</beans:bean>
+	<context:component-scan base-package="com.bill"/>
+	<!-- 
 	<beans:bean class="com.bill.controller.MainController"/>
 	<beans:bean class="com.bill.controller.CarsController"/>	
 	<beans:bean class="com.bill.controller.CarController"/>	
 	<beans:bean class="com.bill.controller.MonitoringController"/>		
 	<context:component-scan base-package="com.bill.springTest" />			
+	 -->
 	</beans:beans>
