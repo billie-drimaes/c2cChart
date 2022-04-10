@@ -1,19 +1,16 @@
 package com.bill.dao;
 
-import org.apache.ibatis.session.SqlSession;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
-@Repository("carDAO")
-public class CarDAO {
-	  @Autowired
-	  private SqlSession sqlSession;
-	  private String Namespace = "com.bill.mappers.carMapper";
-	         
-	/*
-	 * public List<UserVO> selectUser() throws Exception { return
-	 * sqlSession.selectList(Namespace+".selectUser"); }
-	 */
+import com.bill.vo.CarMainVO;
 
+@Repository("carDAO")
+public interface CarDAO {
+
+	public List<CarMainVO> selectCar() throws Exception;
+	  
+	public List<CarMainVO> selectTrip() throws Exception;
 
 }

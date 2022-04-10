@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="com.bill.mapper.CarMapper">
+ 	
+ 	<!-- Car 조회 -->
+ 	<select id="selectCar" resultType="CarMainVO">
+		SELECT 
+ 			  C.carNo
+ 			, C.userId
+ 			, U.userName
+ 			, C.obdNo
+ 		  FROM
+ 		  	carInfo C 
+ 	LEFT JOIN 
+ 			userInfo U on C.userId = U.userId
+ 	 ORDER BY
+ 	 		C.carNo
+ 		 	
+ 	</select>
+ 	
+ 	
+ 	<!-- Trip 조회 -->
+ 	<select id="selectTrip" resultType="CarMainVO">
+		SELECT 
+ 			  T.tripId
+ 			, T.insDte
+ 			, T.mileage
+ 			, T.operateTime
+ 			, C.carNo
+ 			, C.userId
+ 			, U.userName
+ 			, T.obdNo
+ 		  FROM
+ 		  	tripInfo T
+ 	LEFT JOIN 
+ 			carInfo C on T.obdNo = C.obdNo
+ 	LEFT JOIN 
+ 			userInfo U on C.userId = U.userId
+ 	 ORDER BY
+ 	 		C.carNo, T.tripId
+ 		 	
+ 	</select>
+ </mapper>

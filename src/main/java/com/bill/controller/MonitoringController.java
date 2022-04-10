@@ -1,6 +1,7 @@
 package com.bill.controller;
 import java.net.InetAddress;
 import java.util.Locale;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class MonitoringController {
     
-    
-    @RequestMapping("/monitering")
+	
+    @RequestMapping("/monitoring")
     public String home(Locale locale, Model model) throws Exception{
     	
     	InetAddress ip = InetAddress.getLocalHost(); 
@@ -18,4 +19,5 @@ public class MonitoringController {
 
         return "monitering/main";
     }
+    
 }
