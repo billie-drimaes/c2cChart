@@ -13,8 +13,6 @@
 	<!-- resources를 따로 지정하지 않아도 바로 css폴더로 연결되게끔 지정 --> 	
 	<!-- 경로지정만 해도 css폴더의 하위 파일들을 모두 적용되게끔 지정 --> 	
 	<resources location="/resources/css/" mapping="/css/**" />
-	<!-- /views 하위 폴더의 하위폴더(/car/stat)에도 css적용시키도록 매핑위치 추가 -->
-	<resources location="/resources/css/" mapping="/**/css/**" />
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->	
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">		
 		<beans:property name="prefix" value="/WEB-INF/views/" />		

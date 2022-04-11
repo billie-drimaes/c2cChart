@@ -12,7 +12,7 @@
 <script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
 
 	<!-- 상단 메뉴 -->
-	<jsp:include page="../../navbar.jsp">
+	<jsp:include page="../navbar.jsp">
 		<jsp:param value="" name=""/>
 	</jsp:include>
 

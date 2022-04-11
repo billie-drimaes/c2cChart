@@ -76,14 +76,14 @@ public class CarController {
     	return "car/main";
     }
     //개별차량 - 통계페이지 호출
-    @RequestMapping("/car/stat")
+    @RequestMapping("/carStat")
     public String stat(Locale locale, Model model) throws Exception{
 
     	List<infoVO> infoList = infoDao.getInfo();
 
        model.addAttribute("infoList", infoList);
 
-        return "car/stat/statMain";
+        return "car/statMain";
     }
 	
 	@ResponseBody
