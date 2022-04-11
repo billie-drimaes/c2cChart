@@ -28,9 +28,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.bill.vo.fuelVO;
 import com.bill.service.fuelService;
-import com.bill.vo.info.infoVO;
 import com.mqtt.Mqtt_Sub_Client;
-import com.bill.dao.info.infoDAO;
  
 /**
  * Handles requests for the application home page.
@@ -50,8 +48,7 @@ public class HomeController implements MqttCallback {
     
     @Inject
     private fuelService service;
-    @Autowired
-    infoDAO infoDao;
+
     
     
     /**
@@ -76,10 +73,8 @@ public class HomeController implements MqttCallback {
         //logger.info("index");
         
         List<fuelVO> fuelList = service.selectFuel();
-        List<infoVO> infoList = infoDao.getInfo();
         
         model.addAttribute("fuelList", fuelList);
-        model.addAttribute("infoList", infoList);
  
         return "home";
         //return "index";
@@ -124,14 +119,13 @@ public class HomeController implements MqttCallback {
 	
 	@PostMapping("regist")
 	public String postRegist(Model model, HttpServletRequest request) throws Exception{
-        List<infoVO> infoList = infoDao.getInfo();
+        //List<infoVO> infoList = infoDao.getInfo();
 		String route = request.getParameter("selectBox");
 		//int price = Integer.parseInt(request.getParameter("price"));
 		//int categoryCode = Integer.parseInt(request.getParameter("categoryCode"));
 		
 		String message = route;
 		model.addAttribute("message", message);
-        model.addAttribute("infoList", infoList);
 
 		return "/messageResult";
 		//return "/index_messageResult";

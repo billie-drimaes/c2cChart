@@ -55,7 +55,7 @@ span
 			<!-- DB의 carInfo 테이블에서 차량번호를 가져와 선택하도록 함 / infoMapper-->
 			<select name="selectBox" style="width:400px; height:30px" onchange="selectCar(this)">
    		  		<option>차량번호 선택</option>
-      			<c:forEach var="info" items="${infoList}" varStatus="i">
+      			<c:forEach var="info" items="${carList}" varStatus="i">
          			<option value="${info.carNo}">${info.carNo}</option>
       			</c:forEach>
          </select>
