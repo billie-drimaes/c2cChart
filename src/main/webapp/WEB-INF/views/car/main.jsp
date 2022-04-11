@@ -63,6 +63,7 @@ span
 	font-size: 1.5em;
 }
 </style>
+
 <body>
 	<div style="float:left; width:100%; margin:1%;">
 		<!-- 첫번째 라인 -->
