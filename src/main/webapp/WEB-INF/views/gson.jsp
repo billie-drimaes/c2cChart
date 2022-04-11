@@ -2,8 +2,9 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page import = "java.util.Enumeration"%>
-<!-- 제이쿼리 -->
+<!-- 제이쿼리 호출/ statMain에서 불러온 jquery와 충돌이 발생하여 주석처리
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" type="text/javascript"></script>
+-->
 <!-- chart.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
 
@@ -145,18 +146,17 @@
 </script>
 </head>
 <body>
-	<div class="chartBox" style="width: 1200px; height: 500px;float:right; margin-right:30px;">
+	<div class="chartBox" style="width: 1200px; height: 500px; margin-left:30px;">
 	    <form name="input" method = "POST" >
-	        <h2>차량 모니터링 </h2>
-	            <div style="width: 1000px; height:20px;float:right;">	        		
+	            <div style="width: 1000px; height:20px;margin-left:300px;">	        		
 	            <input type="radio" name="chart_choice" id="pro1" value="s" onclick="chart(this.id)" >EnginRpm
 	            <input type="radio" name="chart_choice" id="pro2" value="m" onclick="chart(this.id)" >fuelLevel
 	            <input type="radio" name="chart_choice" id="pro3" value="l" onclick="chart(this.id)" >Vehicle Speed</div>
 	            <div style="width: 1000px; height: 500px;margin-right:30;float:right"><canvas id="myChart"></canvas></div>
-	            <div style="width: 100px; height:210px;margin-top:200px;margin-left:30;float:left">
-	            <label><input type="radio" name="time_set" id="ms" onclick="timeSet()" style="margin:0;vertical-align:middle;" checked>Millisecond</label>
-	            <label><input type="radio" name="time_set" id="s" onclick="timeSet()" style="margin-right:10px;vertical-align:middle;">Second</label>
-	            <label><input type="radio" name="time_set" id="m" onclick="timeSet()" style="margin:0;vertical-align:middle;">Minute</label>
+	            <div style="width: 30px; height:210px;margin-top:200px;margin-left:30;" align="left">
+	            <label><input type="radio" name="time_set" id="ms" onclick="timeSet()" style="margin:0;vertical-align:middle;" checked>년</label>
+	            <label><input type="radio" name="time_set" id="s" onclick="timeSet()" style="margin-right:0;vertical-align:middle;">월</label>
+	            <label><input type="radio" name="time_set" id="m" onclick="timeSet()" style="margin:0;vertical-align:middle;">일</label>
 	            </div>
 	    </form>
 	</div>
@@ -183,7 +183,7 @@
 			let rpmList = [];
 			function getGraph(){
 				$.ajax({
-					url:"http://localhost:58080/gsonList",
+					url:location.href.split('/')[0]+"/gsonList",
 					type:"get",
 					dataType:"json",
 					contentType:"application/json;cahrset=utf-8",
@@ -210,7 +210,7 @@
 			let fuelList = [];			
 			function getGraph2(){
 				$.ajax({
-					url:"http://localhost:58080/fuelList",
+					url:location.href.split('/')[0]+"/fuelList",
 					type:"get",
 					dataType:"json",
 					contentType:"application/json;cahrset=utf-8",
@@ -237,7 +237,7 @@
 			let speedList = [];			
 			function getGraph3(){
 				$.ajax({
-					url:"http://localhost:58080/speedList",
+					url:location.href.split('/')[0]+"/speedList",
 					type:"get",
 					dataType:"json",
 					contentType:"application/json;cahrset=utf-8",
