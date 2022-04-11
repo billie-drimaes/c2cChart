@@ -16,6 +16,7 @@
     -->
     
     <select id="getRpm" resultType="com.bill.vo.gson.gsonVO">
+    	/* 테스트 ==IGNORE_LOG== */
         SELECT time,RPM FROM mqttdata WHERE RPM NOT IN('','0');
     </select>
     

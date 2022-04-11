@@ -66,8 +66,7 @@ public class HomeController implements MqttCallback {
     	// 서버가 시작되면 broker를 구독한다. 
     	//Mqtt_Sub_Client mqttSubClient = new Mqtt_Sub_Client();
     	//init("tcp://61.42.251.202:1883", "daisy-sub").subscribe("test/#");
-    	System.out.println();
-    	init("tcp://192.168.100.138:1883", "daisy-sub").subscribe("test/#");
+    	//init("tcp://192.168.100.138:1883", "daisy-sub").subscribe("test/#");
     	
         logger.info("home");
         //logger.info("index");

@@ -6,6 +6,7 @@
 <mapper namespace="com.bill.mapper.speedMapper">
     
     <select id="getSpeed" resultType="com.bill.vo.speed.speedVO">
+    	/* 테스트 ==IGNORE_LOG== */
         SELECT time,Speed FROM mqttdata WHERE Speed NOT IN('')
     </select>
  

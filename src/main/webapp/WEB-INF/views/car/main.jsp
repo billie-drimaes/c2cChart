@@ -70,8 +70,6 @@ span
 	Object tripList = request.getAttribute("selectTrip");
 	pageContext.setAttribute("tripList", tripList);
 	
-	List<CarLogVO> logList = (List<CarLogVO>)request.getAttribute("selectLog");
-	pageContext.setAttribute("logList", logList);
 	
 %>
 <body>
@@ -101,21 +99,21 @@ span
 				<table style="float:left; ">
 					<tr>
 						<th style="width:100px">Trip ID</th>
-						<td style="width:260px"><%=logList.get(0).getTripId() %></td>
+						<td style="width:260px"><%-- <%=logList.get(0).getTripId() %> --%></td>
 						<th style="width:100px">날짜</th>
-						<td><%=logList.get(0).getInsDte() %></td>
+						<td></td>
 					</tr>
 					<tr>
 						<th>사용자 ID</th>
-						<td><%=logList.get(0).getUserId() %></td>
+						<td></td>
 						<th>주행 거리</th>
-						<td><%=logList.get(0).getDRIVING_DISTANCE() %></td>
+						<td></td>
 					</tr>
 					<tr>
 						<th>차량번호</th>
-						<td><%=logList.get(0).getCarNo() %></td>
+						<td></td>
 						<th>운행시간</th>
-						<td><%=logList.get(0).getDRIVING_TIME() %></td>
+						<td></td>
 					</tr>
 				</table>
 			</div>
@@ -258,19 +256,20 @@ function changeCarSelect(){
 	var carSelected = document.getElementById("carId").value;
 	console.log("선택된 차량 : " + carSelected);
 	var $target = $("select[name='tripName']");
-	
+	var $option = $("select[name='tripName'] option");
 	$.ajax({
 		type: 'post', 
 		url: "/car/post", 
 		async: false, 
 		data: {carNo : carSelected}, // 서버로 보낼 데이터 
-		/* dataType: "json", // 호출했을 때 결과타입 */
 		success: function(data) {
+			$option.remove();
+			$target.append("<option value=''>Trip을 선택해주세요</option>");
+			
 			if(data.length == 0) {
-				//$target.append("<option value="">Trip을 선택해주세요</option>");
 			} else {
 				$(data).each(function(i){
-					//$target.append("<option value="+data[i].tripId+">"+data[i].tripId+"</option>");
+					$target.append("<option value="+data[i].tripId+">"+data[i].tripId+"</option>");
 				})
 			}
 		}, error:function(xhr) {
