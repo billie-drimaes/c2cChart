@@ -2,42 +2,24 @@ package com.bill.vo.info;
 
 public class infoVO {
 	
-	    private String driver;
-	    private String route;
-	    private String UTCdate;
-	    private String UTCtime;
+	    private String carNo;
+	    private String obdNo;
 	 
-	    public String getDriver() {
-	        return driver;
+	    public String getcarNo() {
+	        return carNo;
 	    }
 	 
-	    public void setDriver(String driver) {
-	        this.driver = driver;
+	    public void setcarNo(String carNo) {
+	        this.carNo = carNo;
 	    }
 	 
-	    public String getRoute() {
-	        return route;
+	    public String getobdNo() {
+	        return obdNo;
 	    }
 	 
-	    public void setRoute(String route) {
-	        this.route = route;
+	    public void setobdNo(String obdNo) {
+	        this.obdNo = obdNo;
 	    }
 	    
-	    public String getUTCdate() {
-	        return UTCdate;
-	    }
-	 
-	    public void setUTCdate(String UTCdate) {
-	        this.UTCdate = UTCdate;
-	    }
-	 
-	    public String getUTCtime() {
-	        return UTCtime;
-	    }
-	 
-	    public void setUTCtime(String UTCtime) {
-	        this.UTCtime = UTCtime;
-	    }
 
 }
-

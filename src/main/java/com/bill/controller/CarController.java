@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.bill.dao.CarDAO;
 import com.bill.service.CarService;
 import com.bill.vo.CarMainVO;
+import com.bill.dao.info.infoDAO;
+import com.bill.vo.info.infoVO;
 
 @Controller
 public class CarController {
@@ -31,6 +33,8 @@ public class CarController {
 	
 	@Autowired
 	CarDAO carDao;
+    @Autowired
+    infoDAO infoDao;
 	
 	@Inject
 	private SqlSession sqlSession;
@@ -70,6 +74,16 @@ public class CarController {
     	
     	
     	return "car/main";
+    }
+    //개별차량 - 통계페이지 호출
+    @RequestMapping("/car/stat")
+    public String stat(Locale locale, Model model) throws Exception{
+
+    	List<infoVO> infoList = infoDao.getInfo();
+
+       model.addAttribute("infoList", infoList);
+
+        return "car/stat/statMain";
     }
 	
 	@ResponseBody
