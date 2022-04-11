@@ -16,7 +16,7 @@
     -->
     
     <select id="getRpm" resultType="com.bill.vo.gson.gsonVO">
-        SELECT time,RPM,ROUTE FROM mqttdata WHERE RPM NOT IN('','0.0');
+        SELECT time,RPM FROM mqttdata WHERE RPM NOT IN('','0');
     </select>
     
 </mapper>

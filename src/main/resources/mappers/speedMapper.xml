@@ -6,7 +6,7 @@
 <mapper namespace="com.bill.mapper.speedMapper">
     
     <select id="getSpeed" resultType="com.bill.vo.speed.speedVO">
-        SELECT time,Speed,route FROM concat WHERE Speed NOT IN('')
+        SELECT time,Speed FROM mqttdata WHERE Speed NOT IN('')
     </select>
  
  

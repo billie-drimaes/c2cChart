@@ -66,7 +66,7 @@ a {
 			<li><a href='../car'>개별 차량</a>
 				<ul class="submenu">
 					<li><a href='../car'>모니터링</a></li>
-					<li><a href='../car'>통계</a></li>
+					<li><a href='../car/stat'>통계</a></li>
 					<li><a href='../car'>보고서</a></li>
 				</ul>
 			</li> 
