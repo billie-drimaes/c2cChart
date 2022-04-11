@@ -20,18 +20,14 @@
 	<jsp:include page="../mqtt/mqtt.jsp">
 		<jsp:param value="" name=""/>
 	</jsp:include>
-	
 	<!-- fuel Chart -->
 	<jsp:include page="/WEB-INF/views/car/chart/fuelchart.jsp"/>
 	<!-- rpmChart -->
 	<jsp:include page="/WEB-INF/views/car/chart/rpm_chart.jsp"/>	
 	<!-- donut chart (fuel level) -->	
-	<jsp:include page="/WEB-INF/views/car/chart/donut_17.jsp">
-		<jsp:param value="" name=""/>
-	</jsp:include>
+	<jsp:include page="/WEB-INF/views/car/chart/donut_17.jsp"/>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" type="text/javascript"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-		
 </head>
 <style>
 /* 슬래시 모양 css 가져옴 */
