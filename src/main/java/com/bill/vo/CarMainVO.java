@@ -8,6 +8,7 @@ import java.util.Date;
 */
 public class CarMainVO {
 
+
 	private String tripId; 	// trip ID 
 	private Date insDate;	// trip 생성 날짜
 	private double mileage;	// 주행 거리
@@ -63,7 +64,6 @@ public class CarMainVO {
 		return "CarMainVO [tripId=" + tripId + ", insDate=" + insDate + ", mileage=" + mileage + ", operateTime="
 				+ operateTime + ", userId=" + userId + ", userName=" + userName + ", carNo=" + carNo + "]";
 	}
-	
 	
 	
 }

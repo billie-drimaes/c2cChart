@@ -1,5 +1,8 @@
+<%@page import="com.bill.vo.CarLogVO"%>
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -63,22 +66,35 @@ span
 	font-size: 1.5em;
 }
 </style>
+<%
 
+	Object carList = request.getAttribute("selectCar");
+	pageContext.setAttribute("carList", carList);
+
+	Object tripList = request.getAttribute("selectTrip");
+	pageContext.setAttribute("tripList", tripList);
+	
+	List<CarLogVO> logList = (List<CarLogVO>)request.getAttribute("selectLog");
+	pageContext.setAttribute("logList", logList);
+	
+%>
 <body>
 	<div style="float:left; width:100%; margin:1%;">
 		<!-- 첫번째 라인 -->
 		<div align="left" >
-			<select id="" style="width:400px; height:30px">
-				<option>driver1</option>
-				<option>driver2</option>
-				<option>driver3</option>
+			<select id="carId" style="width:400px; height:30px" onchange="changeCarSelect()">
+				<option>차량을 선택해주세요.</option>
+				<c:forEach var="i" items="${carList}">
+					<option value="${i.carNo }">${i.carNo }</option>
+				</c:forEach>
 			</select>
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			Trip ID : &nbsp;&nbsp;
-			<select id="" style="width:289px; height:30px">
-				<option>route1</option>
-				<option>route2</option>
-				<option>route3</option>
+			<select id="tripId" name="tripName" style="width:289px; height:30px">
+				<option>Trip을 선택해주세요.</option>
+				<c:forEach var="i" items="${tripList}">
+					<option value="${i.tripId }">${i.tripId }</option>
+				</c:forEach>
 			</select>
 			<span id="payload"></span>
 		</div>
@@ -89,24 +105,21 @@ span
 				<table style="float:left; ">
 					<tr>
 						<th style="width:100px">Trip ID</th>
-						<td style="width:260px"></td>
+						<td style="width:260px"><%=logList.get(0).getTripId() %></td>
 						<th style="width:100px">날짜</th>
-						<td></td>
+						<td><%=logList.get(0).getInsDte() %></td>
 					</tr>
 					<tr>
 						<th>사용자 ID</th>
-						<td></td>
+						<td><%=logList.get(0).getUserId() %></td>
 						<th>주행 거리</th>
-						<td>
-							<span id="Runtime"></span>
-						</td>
+						<td><%=logList.get(0).getDRIVING_DISTANCE() %></td>
 					</tr>
 					<tr>
 						<th>차량번호</th>
-						<td></td>
+						<td><%=logList.get(0).getCarNo() %></td>
 						<th>운행시간</th>
-						<td>
-						</td>
+						<td><%=logList.get(0).getDRIVING_TIME() %></td>
 					</tr>
 				</table>
 			</div>
@@ -158,7 +171,7 @@ span
 			</div>
 			<div align="left" style="float:left; width:400px; height:210px;">
 				<div align="left" style="width:100%">
-					<button style="width:49%; float:left">Log</button>
+					<button style="width:49%; float:left" onclick="location.href='log'">Log</button>
 					&nbsp;
 					<button style="width:49%; float:right">Report</button>
 				</div>
@@ -244,4 +257,34 @@ span
 		</div>
 	</div>
 </body>
+<script type="text/javascript">
+function changeCarSelect(){
+	var carSelected = document.getElementById("carId").value;
+	console.log("선택된 차량 : " + carSelected);
+	var $target = $("select[name='tripName']");
+	
+	$.ajax({
+		type: 'post', 
+		url: "/car/post", 
+		async: false, 
+		data: {carNo : carSelected}, // 서버로 보낼 데이터 
+		/* dataType: "json", // 호출했을 때 결과타입 */
+		success: function(data) {
+			if(data.length == 0) {
+				//$target.append("<option value="">Trip을 선택해주세요</option>");
+			} else {
+				$(data).each(function(i){
+					//$target.append("<option value="+data[i].tripId+">"+data[i].tripId+"</option>");
+				})
+			}
+		}, error:function(xhr) {
+			console.log(xhr.responseText);
+			alert("system doesn't proceed this process");
+			return;
+		}
+	});
+	
+}
+
+</script>
 </html>

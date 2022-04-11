@@ -6,6 +6,7 @@
         <typeAliases>
             <typeAlias type="com.bill.vo.fuelVO" alias="fuelVO"/>
             <typeAlias type="com.bill.vo.CarMainVO" alias="CarMainVO"/>
+            <typeAlias type="com.bill.vo.CarLogVO" alias="CarLogVO"/>
         </typeAliases>
         
     </configuration>

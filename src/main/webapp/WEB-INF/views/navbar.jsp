@@ -46,7 +46,8 @@ a {
 	background: lightGray;
 	transition: ease 1s;
 	}
-</style> 
+</style>
+ 
 <!-- 
 	viewport : 사용자에게 보여지는 영역
 	width=device-width : 넓이를 기기의 크기에 맞춘다. 
@@ -64,13 +65,13 @@ a {
 			</li> 
 			<li><a href='../car'>개별 차량</a>
 				<ul class="submenu">
-					<li><a href='../cars'>모니터링</a></li>
-					<li><a href='../cars'>통계</a></li>
-					<li><a href='../cars'>보고서</a></li>
+					<li><a href='../car'>모니터링</a></li>
+					<li><a href='../car'>통계</a></li>
+					<li><a href='../car'>보고서</a></li>
 				</ul>
 			</li> 
-			<li><a href='../monitering'>안전 모니터링</a></li>
-			<li><a href='../monitering'>계정</a>
+			<li><a href='../monitoring'>안전 모니터링</a></li>
+			<li><a href='../monitoring'>계정</a>
 				<ul class="submenu">
 					<li><a href='../cars'>관리자페이지</a></li>
 				</ul>

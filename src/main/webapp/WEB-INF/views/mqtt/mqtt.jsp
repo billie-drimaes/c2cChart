@@ -54,7 +54,7 @@
 				document.getElementById("Speed").innerHTML = strMsg;
 			} 
 			if(strTopic=="Runtime") {
-				document.getElementById("Runtime").innerHTML = strMsg;
+				//document.getElementById("Runtime").innerHTML = strMsg;
 			} 
 			if(strTopic=="Fuel") {
 				//document.getElementById("Fuel").innerHTML = strMsg;

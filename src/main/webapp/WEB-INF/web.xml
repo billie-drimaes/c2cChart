@@ -35,9 +35,18 @@
 	    		<param-name>cors.allowed.origins</param-name>	        
 	    		<param-value>*</param-value>	    
     		</init-param>	
+    		<filter-name>encoding-filter</filter-name> 
+   			<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class> 
+   			<init-param> 
+   				<param-name>encoding</param-name> 
+   				<param-value>UTF-8</param-value> 
+			</init-param>
+
    		</filter>
 	<filter-mapping>		    
 		<filter-name>CorsFilter</filter-name>	    
 		<url-pattern>*</url-pattern>	
+		<filter-name>encoding-filter</filter-name> 
+		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 </web-app>
