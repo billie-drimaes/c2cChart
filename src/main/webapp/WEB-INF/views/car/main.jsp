@@ -74,7 +74,6 @@ span
 %>
 <body>
 	<div style="float:left; width:100%; margin:1%;">
-		<div>testsetseteste</div>
 		<!-- 첫번째 라인 -->
 		<div align="left" >
 			<select id="carId" style="width:400px; height:30px" onchange="changeCarSelect()">
