@@ -72,7 +72,7 @@ span
 	
 	
 %>
-<body>
+<body>test.......
 	<div style="float:left; width:100%; margin:1%;">
 		<!-- 첫번째 라인 -->
 		<div align="left" >
