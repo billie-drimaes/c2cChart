@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="com.bill.mapper.ChartMapper">
+
+    <!-- 
+        mybatis-config.xml의 typeAlias에 등록해두지 않았다면
+        <select id="selectMember" resultType="com.example.dto.MemberVO" >
+            SELECT ID, PW ,NAME FROM TEST
+        </select>
+        이렇게 해야 한다.
+    -->
+    
+    <select id="getRpm" resultType="ChartVO">
+        SELECT insDte,time,RPM FROM mqttdata WHERE RPM NOT IN('','0');
+    </select>
+    
+    <!-- 18페이지 그래프 시간단위 선택에 따라 시간 단위별 평균값을 불러온다 -->
+    <select id="getSpeedWithPeriod" resultType="ChartVO" >
+		SELECT 
+			CASE
+				WHEN (#{period}='DATE') THEN DATE(insDte)
+				WHEN (#{period}='MONTH') THEN MONTH(insDte)
+				WHEN (#{period}='YEAR') THEN YEAR(insDte)
+			END AS date,
+			ROUND(AVG(Speed),2) AS value
+		FROM mqttdata 
+		GROUP BY date
+    </select>
+    
+</mapper>

@@ -1,14 +1,16 @@
-package com.bill.springTest.gson;
+package com.bill.controller;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 
 import java.text.DateFormat;
 import java.util.Date;
 
-
+import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,38 +18,33 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 
-import com.bill.vo.gson.gsonVO;
-import com.bill.dao.gson.GsonDAO;
+import com.bill.dao.ChartDAO;
 import com.bill.service.fuelService;
 import com.bill.vo.fuelVO;
 import com.bill.dao.speed.speedDAO;
 import com.bill.vo.speed.speedVO;
+import com.bill.vo.ChartVO;
 
 @Controller
-public class GsonController {
-	
-
-	private static final Logger logger = LoggerFactory.getLogger(GsonController.class);
+public class ChartController {
 
 	@Autowired
-	GsonDAO gsonDao;
+	ChartDAO chartDao;
 	@Autowired
 	speedDAO speedDao;
     @Inject
     private fuelService service;
+    
+	@Inject
+	private SqlSession sqlSession;
+    
+	private static final String Namespace = "com.bill.mapper.ChartMapper";
 
-
-	@RequestMapping(value = "gson", method = RequestMethod.GET)
-
-	public String gson(Locale locale, Model model) {
-
-		return "gson";
-
-	}
 
 	@RequestMapping(value = "gsonList", method = RequestMethod.GET, produces="text/plain;charset=UTF-8")
 
@@ -55,7 +52,7 @@ public class GsonController {
 
 		Gson gson = new Gson();
 
-		List<gsonVO> list = gsonDao.getRpm();
+		List<ChartVO> list = chartDao.getRpm();
 
 		return gson.toJson(list);}
 
@@ -77,9 +74,22 @@ public class GsonController {
 		Gson gson_speed = new Gson();
 
 		List<speedVO> list = speedDao.getSpeed();
-
 		return gson_speed.toJson(list);
 	}
+	
+    //statMain.jsp에서 그래프 시간단위를 받아와 그에따른 데이터 값을 불러온다.
+	@ResponseBody
+	@RequestMapping(value="/stat/time", method = RequestMethod.POST)
+	public List<ChartVO> getChartList( HttpServletRequest request, @RequestParam Map<String, Object> param ) throws Exception {
+				
+		String period = request.getParameter("period");
+		System.out.println("select time unit:"+period);
+		
+		List<ChartVO> chartList = sqlSession.selectList(Namespace + ".getSpeedWithPeriod", period);
+		System.out.println(chartList);
+		
+		return chartList;
+	}  	
 
 	
 

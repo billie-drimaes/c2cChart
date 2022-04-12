@@ -80,7 +80,7 @@ span
 		<!-- 네번째 라인: 차트 삽입 -->
 		<div align="left">
 			<!-- Chart -->
-			<jsp:include page="/WEB-INF/views/gson.jsp"/>
+			<jsp:include page="/WEB-INF/views/car/chart/charts_stat.jsp"/>
 		</div>
 	</div>
 	<script>

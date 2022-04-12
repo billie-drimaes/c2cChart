@@ -80,7 +80,6 @@ public class CarController {
 
         return "car/statMain";
     }
-	
 
 	@GetMapping("/log")
     // model 안에 request가 있다. model에 데이터를 저장하면 request에 저장된다. 
@@ -96,7 +95,6 @@ public class CarController {
     	
     	return "car/log";
     }
-	
 	/*
 	 * 차량번호의 트립아이디 리스트를 가져온다. 
 	*/
