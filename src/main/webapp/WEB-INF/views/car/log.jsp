@@ -49,9 +49,7 @@ div
 } 
 span
 {
-	color: red;
 	font-weight: border;
-	font-size: 1.5em;
 }
 input
 {
@@ -66,14 +64,6 @@ table
 
 	Object carList = request.getAttribute("selectCar");
 	pageContext.setAttribute("carList", carList);
-	
-	Object tripList = request.getAttribute("selectTrip");
-	pageContext.setAttribute("tripList", tripList);
-	
-	List<CarLogVO> logList = (List<CarLogVO>)request.getAttribute("selectLog");
-	pageContext.setAttribute("logList", logList);
-	
-	
 	
 	
 	
@@ -100,11 +90,8 @@ table
 			<div  style="float:left; width:100px"></div>
 			<div style="float:left;">
 				Trip ID : &nbsp;&nbsp;
-				<select id="tripId" name="tripName" style="width:300px; height:30px" onchange="changeCarSelect()">
+				<select id="tripId" name="tripName" style="width:300px; height:30px" onchange="changeTripSelect()">
 					<option>Trip을 선택해주세요.</option>
-					<c:forEach var="i" items="${tripList}">
-						<option value="${i.tripId }">${i.tripId }</option>
-					</c:forEach>
 				</select>
 			</div>
 			<span id="payload"></span>
@@ -123,12 +110,12 @@ table
 						<th>운행시간</th>
 					</tr>
 					<tr style="height:50px">
-						<td><%=logList.get(0).getTripId() %></td>
-						<td><%=logList.get(0).getInsDte() %></td>
-						<td><%=logList.get(0).getCarNo() %></td>
-						<td><%=logList.get(0).getUserId() %></td>
-						<td><%=logList.get(0).getDRIVING_DISTANCE() %></td>
-						<td><%=logList.get(0).getDRIVING_TIME() %></td>
+						<td><span id="voTripId"></span></td>
+						<td><span id="voInsDte"></span></td>
+						<td><span id="voCarNo"></span></td>
+						<td><span id="voUserId"></span></td>
+						<td><span id="voDrvDistance"></span></td>
+						<td><span id="voDrvTime"></span></td>
 					</tr>
 					<tr>
 						<th>연료/배터리<br>사용량</th>
@@ -151,13 +138,13 @@ table
 									</tr>
 									<tr>
 										<td>운행시작</td>
-										<td><%=logList.get(0).getSTART_TIME() %></td>
-										<td><%=logList.get(0).getSTART_GPS() %></td>
+										<td><span id="voStTime"></span></td>
+										<td><span id="voStGps"></span></td>
 									</tr>
 									<tr>
 										<td>운행종료</td>
-										<td><%=logList.get(0).getEND_TIME() %></td>
-										<td><%=logList.get(0).getEND_GPS() %></td>
+										<td><span id="voEndTime"></span></td>
+										<td><span id="voEndGps"></span></td>
 									</tr>
 								</table>
 							</div>
@@ -192,19 +179,20 @@ function changeCarSelect(){
 	var carSelected = document.getElementById("carId").value;
 	console.log("선택된 차량 : " + carSelected);
 	var $target = $("select[name='tripName']");
-	
+	var $option = $("select[name='tripName'] option");
 	$.ajax({
 		type: 'post', 
 		url: "/car/post", 
 		async: false, 
 		data: {carNo : carSelected}, // 서버로 보낼 데이터 
-		/* dataType: "json", // 호출했을 때 결과타입 */
 		success: function(data) {
+			$option.remove();
+			$target.append("<option value=''>Trip을 선택해주세요.</option>");
+			
 			if(data.length == 0) {
-				//$target.append("<option value="">Trip을 선택해주세요</option>");
 			} else {
 				$(data).each(function(i){
-					//$target.append("<option value="+data[i].tripId+">"+data[i].tripId+"</option>");
+					$target.append("<option value="+data[i].tripId+">"+data[i].tripId+"</option>");
 				})
 			}
 		}, error:function(xhr) {
@@ -215,6 +203,50 @@ function changeCarSelect(){
 	});
 	
 }
+function changeTripSelect(){
+	var selectedTrip = document.getElementById("tripId").value;
+	console.log("선택된 Trip ID : " + selectedTrip);
 
+	$.ajax({
+		type: 'post', 
+		url: "/car/json", 
+		async: false, 
+		data: {tripId : selectedTrip}, // 서버로 보낼 데이터 
+		success: function(data) {
+			if(data.length == 0) {
+				$('#voTripId').empty();
+				$('#voInsDte').empty();
+				$('#voCarNo').empty();
+				$('#voUserId').empty();
+				$('#voDrvDistance').empty();
+				$('#voDrvTime').empty();
+				$('#voStTime').empty();
+				$('#voEndTime').empty();
+				$('#voStGps').empty();
+				$('#voEndGps').empty();
+			} else {
+				$(data).each(function(i){
+					console.log(data[i]);
+					console.log(data[i]["carNo"]);
+					$('#voTripId').text(data[i]["tripId"]);
+					$('#voInsDte').text(data[i]["insDte"]);
+					$('#voCarNo').text(data[i]["carNo"]);
+					$('#voUserId').text(data[i]["userId"]);
+					$('#voDrvDistance').text(data[i]["DRIVING_DISTANCE"]);
+					$('#voDrvTime').text(data[i]["DRIVING_TIME"]);
+					$('#voStTime').text(data[i]["START_TIME"]);
+					$('#voEndTime').text(data[i]["END_TIME"]);
+					$('#voStGps').text(data[i]["START_GPS"]);
+					$('#voEndGps').text(data[i]["END_GPS"]);
+				})
+			}
+		}, error:function(xhr) {
+			console.log(xhr.responseText);
+			alert("system doesn't proceed this process");
+			return;
+		}
+	});
+	
+}
 </script>
 </html>
