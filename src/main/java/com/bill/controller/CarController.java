@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.stream.events.Namespace;
 
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bill.dao.CarDAO;
 import com.bill.service.CarService;
+import com.bill.vo.CarLogVO;
 import com.bill.vo.CarMainVO;
 
 @Controller
@@ -65,11 +67,6 @@ public class CarController {
 		System.out.println(service.selectTrip());
     	model.addAttribute("selectTrip", service.selectTrip());
     	
-    	System.out.println("CarController.selectLog() ");
-		System.out.println(service.selectLog());
-    	model.addAttribute("selectLog", service.selectLog());
-    	
-    	
     	return "car/main";
     }
     //개별차량 - 통계페이지 호출
@@ -83,20 +80,7 @@ public class CarController {
         return "car/statMain";
     }
 	
-	@ResponseBody
-	@RequestMapping(value="/car/post", method = RequestMethod.POST)
-	public String getTrimNumber( HttpServletRequest request, @RequestParam Map<String, Object> param ) throws Exception {
-		String carNumber = request.getParameter("carNo");
-		System.out.println(carNumber);
-		
-		CarMainVO vo = new CarMainVO();
-		vo.setCarNo(carNumber);
-		//List<CarMainVO> tripList = sqlSession.selectList(Namespace + ".selectTrip");
-		System.out.println(service.selectTrip(param));
-		
-		return null;
-	}
-	
+
 	@GetMapping("/log")
     // model 안에 request가 있다. model에 데이터를 저장하면 request에 저장된다. 
     public String carLog(Model model) throws Exception {
@@ -109,10 +93,43 @@ public class CarController {
 		System.out.println(service.selectTrip());
     	model.addAttribute("selectTrip", service.selectTrip());
     	
-    	System.out.println("CarController.selectLog() ");
-		System.out.println(service.selectLog());
-    	model.addAttribute("selectLog", service.selectLog());
-    	
     	return "car/log";
     }
+	
+	/*
+	 * 차량번호의 트립아이디 리스트를 가져온다. 
+	*/
+	@ResponseBody
+	@RequestMapping(value="/car/post", method = RequestMethod.POST)
+	public List<CarMainVO> getTripNumber( HttpServletRequest request, @RequestParam Map<String, Object> param ) throws Exception {
+		
+		System.out.println("CarController.selectTrip() ");
+		
+		String carNumber = request.getParameter("carNo");
+		System.out.println(carNumber);
+		
+		List<CarMainVO> tripList = sqlSession.selectList(Namespace + ".selectTrip", carNumber);
+		System.out.println(tripList);
+		
+		return tripList;
+	}
+	
+	/*
+	 * 차량번호의 트립아이디 리스트를 가져온다. 
+	*/
+	@ResponseBody
+	@RequestMapping(value="/car/json", method = RequestMethod.POST)
+	public List<CarLogVO> getTripData( HttpServletRequest request, @RequestParam Map<String, Object> param ) throws Exception {
+		
+		System.out.println("CarController.selectTripData() ");
+		
+		String tripId = request.getParameter("tripId");
+		System.out.println(tripId);
+		
+		List<CarLogVO> tripList = sqlSession.selectList(Namespace + ".selectTripData", tripId);
+		System.out.println(tripList);
+		
+		return tripList;
+	}
+	
 }

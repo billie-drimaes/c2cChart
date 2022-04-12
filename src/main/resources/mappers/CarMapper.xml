@@ -22,36 +22,33 @@
  	</select>
  	
  	<!-- Trip 조회 -->
- 	<select id="selectTrip" resultType="CarMainVO">
-		SELECT tripId FROM tripInfo 
+ 	<select id="selectTrip" resultType="CarMainVO" parameterType="String">
+		SELECT tripId FROM tripInfo WHERE carNo = #{carNumber}
  	</select>
  	
  	
  	<!-- Trip 조회 -->
  	<select id="selectCarTrip" resultType="java.util.HashMap" parameterType="java.util.HashMap">
 		SELECT tripId FROM tripInfo 
-		<!-- <where>
-			<if test='value != null and value != ""'> -->
 		 WHERE carNo = #{carNo}
-			<!-- </if>
-		</where> -->
- 		 	
  	</select>
  	
- 	<select id="selectLog" resultType="CarLogVO">
+ 	
+ 	<!-- 개별차량 - 로그 : 테이블 데이터  -->
+ 	<select id="selectTripData" resultType="CarLogVO" parameterType="String">
  		SELECT t1.tripId
 			 , t1.insDte
-		 	, (select DRIVING_DISTANCE FROM mqttdata WHERE tripid='20220408_#02'  ORDER BY ID desc LIMIT 1) DRIVING_DISTANCE
-			, (select DRIVING_TIME FROM mqttdata WHERE tripid='20220408_#02'  ORDER BY ID desc LIMIT 1) DRIVING_TIME
+		 	, (select DRIVING_DISTANCE FROM mqttdata WHERE tripid = #{tripId}  ORDER BY ID desc LIMIT 1) DRIVING_DISTANCE
+			, (select DRIVING_TIME FROM mqttdata WHERE tripid = #{tripId}  ORDER BY ID desc LIMIT 1) DRIVING_TIME
 			, t2.carNo
 			, t2.userId
-			, (select TIME FROM mqttdata WHERE tripid='20220408_#02'  ORDER BY ID  LIMIT 1) START_TIME
-			, (select TIME FROM mqttdata WHERE tripid='20220408_#02'  ORDER BY ID desc LIMIT 1) END_TIME
-			, (SELECT CONCAT(LATITUDE,'/',LONGITUDE,'/',ALTITUDE) FROM mqttdata WHERE tripid='20220408_#02' AND LATITUDE IS NOT null ORDER BY ID  LIMIT 1) START_GPS
-			, (SELECT CONCAT(LATITUDE,'/',LONGITUDE,'/',ALTITUDE)  FROM mqttdata WHERE tripid='20220408_#02' AND LATITUDE IS NOT null ORDER BY ID DESC LIMIT 1) END_GPS
+			, (select TIME FROM mqttdata WHERE tripid = #{tripId}  ORDER BY ID  LIMIT 1) START_TIME
+			, (select TIME FROM mqttdata WHERE tripid = #{tripId}  ORDER BY ID desc LIMIT 1) END_TIME
+			, (SELECT CONCAT(LATITUDE,'/',LONGITUDE,'/',ALTITUDE) FROM mqttdata WHERE tripid = #{tripId} AND LATITUDE IS NOT null ORDER BY ID  LIMIT 1) START_GPS
+			, (SELECT CONCAT(LATITUDE,'/',LONGITUDE,'/',ALTITUDE)  FROM mqttdata WHERE tripid = #{tripId} AND LATITUDE IS NOT null ORDER BY ID DESC LIMIT 1) END_GPS
 	  FROM mqttdata t1
 	  LEFT JOIN carInfo t2 ON t1.obdNo = t2.obdNo 
-	 WHERE t1.tripid='20220408_#02'  
+	 WHERE t1.tripid = #{tripId}  
 	 GROUP BY t1.tripid
 	
  	</select>
