@@ -75,12 +75,12 @@ table
 	<div style="float:left; width:100%; margin:1%;">
 		<!-- 첫번째 라인 -->
 		<div align="left" >
-			<input type="date" id="datePicker" style="width:295px;">
+			<input type="date" id="insDte" style="width:295px;" onchange="changeDate()">
 		</div>
 		<!-- 첫번째 라인 -->
 		<div align="left" >
 			<div style="float:left;">
-				<select id="carId" style="width:300px; height:30px" onchange="changeCarSelect()">
+				<select id="carId" style="width:300px; height:30px" onchange="changeCar()">
 					<option>차량을 선택해주세요.</option>
 					<c:forEach var="i" items="${carList}">
 						<option value="${i.carNo }">${i.carNo }</option>
@@ -90,7 +90,7 @@ table
 			<div  style="float:left; width:100px"></div>
 			<div style="float:left;">
 				Trip ID : &nbsp;&nbsp;
-				<select id="tripId" name="tripName" style="width:300px; height:30px" onchange="changeTripSelect()">
+				<select id="tripId" name="tripName" style="width:300px; height:30px" onchange="changeTrip()">
 					<option>Trip을 선택해주세요.</option>
 				</select>
 			</div>
@@ -175,16 +175,22 @@ table
 	</div>
 </body>
 <script type="text/javascript">
-function changeCarSelect(){
-	var carSelected = document.getElementById("carId").value;
+
+function changeCar(){
+	var carSelected = $('#carId').val();
+	var insDte = $('#insDte').val();
 	console.log("선택된 차량 : " + carSelected);
+	console.log("선택된 날짜 : " + insDte);
 	var $target = $("select[name='tripName']");
 	var $option = $("select[name='tripName'] option");
 	$.ajax({
 		type: 'post', 
 		url: "/car/post", 
 		async: false, 
-		data: {carNo : carSelected}, // 서버로 보낼 데이터 
+		data: {
+			carNo : carSelected,
+			insDte : insDte
+		}, // 서버로 보낼 데이터 
 		success: function(data) {
 			$option.remove();
 			$target.append("<option value=''>Trip을 선택해주세요.</option>");
@@ -195,6 +201,7 @@ function changeCarSelect(){
 					$target.append("<option value="+data[i].tripId+">"+data[i].tripId+"</option>");
 				})
 			}
+			changeTrip();
 		}, error:function(xhr) {
 			console.log(xhr.responseText);
 			alert("system doesn't proceed this process");
@@ -203,15 +210,19 @@ function changeCarSelect(){
 	});
 	
 }
-function changeTripSelect(){
+function changeTrip(){
 	var selectedTrip = document.getElementById("tripId").value;
+	var insDte = $('#insDte').val();
 	console.log("선택된 Trip ID : " + selectedTrip);
-
+	console.log("선택된 날짜 : " + $('#insDte').val() + '/' + insDte);
 	$.ajax({
 		type: 'post', 
 		url: "/car/json", 
 		async: false, 
-		data: {tripId : selectedTrip}, // 서버로 보낼 데이터 
+		data: {
+					tripId : selectedTrip, 
+					insDte : insDte
+		}, // 서버로 보낼 데이터 
 		success: function(data) {
 			if(data.length == 0) {
 				$('#voTripId').empty();
@@ -247,6 +258,11 @@ function changeTripSelect(){
 		}
 	});
 	
+}
+
+function changeDate(){
+	if($('#insDte').val() != null) changeCar(); 
+	changeTrip();
 }
 </script>
 </html>

@@ -17,15 +17,16 @@
 		mqtt subscribe 소스를 가져온다.
 		main.jsp 파일이 open 되면 subscribe가 실행된다. 
 	 -->
-	<jsp:include page="../mqtt/mqtt.jsp">
-		<jsp:param value="" name=""/>
-	</jsp:include>
+	<jsp:include page="../mqtt/mqtt.jsp"/>
+	<%-- 
 	<!-- fuel Chart -->
 	<jsp:include page="/WEB-INF/views/car/chart/fuelchart.jsp"/>
 	<!-- rpmChart -->
 	<jsp:include page="/WEB-INF/views/car/chart/rpm_chart.jsp"/>	
 	<!-- donut chart (fuel level) -->	
 	<jsp:include page="/WEB-INF/views/car/chart/donut_17.jsp"/>
+	 --%>
+	
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" type="text/javascript"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 </head>
@@ -57,9 +58,7 @@ div
 } 
 span
 {
-	color: red;
 	font-weight: border;
-	font-size: 1.5em;
 }
 </style>
 <%
@@ -72,25 +71,29 @@ span
 	
 	
 %>
-<body>test.......
+<body>
+	<!-- 첫번째 라인 -->
 	<div style="float:left; width:100%; margin:1%;">
-		<div>testsetseteste</div>
+		<div align="left" >
+			<input type="date" id="insDte" style="width:295px;" onchange="changeDate()">
+		</div>
 		<!-- 첫번째 라인 -->
 		<div align="left" >
-			<select id="carId" style="width:400px; height:30px" onchange="changeCarSelect()">
-				<option>차량을 선택해주세요.</option>
-				<c:forEach var="i" items="${carList}">
-					<option value="${i.carNo }">${i.carNo }</option>
-				</c:forEach>
-			</select>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			Trip ID : &nbsp;&nbsp;
-			<select id="tripId" name="tripName" style="width:289px; height:30px">
-				<option>Trip을 선택해주세요.</option>
-				<c:forEach var="i" items="${tripList}">
-					<option value="${i.tripId }">${i.tripId }</option>
-				</c:forEach>
-			</select>
+			<div style="float:left;">
+				<select id="carId" style="width:300px; height:30px" onchange="changeCar()">
+					<option selected="selected">차량을 선택해주세요.</option>
+					<c:forEach var="i" items="${carList}">
+						<option value="${i.carNo }">${i.carNo }</option>
+					</c:forEach>
+				</select>
+			</div>
+			<div  style="float:left; width:100px"></div>
+			<div style="float:left;">
+				Trip ID : &nbsp;&nbsp;
+				<select id="tripId" name="tripName" style="width:300px; height:30px" onchange="changeTrip()">
+					<option selected="selected">Trip을 선택해주세요.</option>
+				</select>
+			</div>
 			<span id="payload"></span>
 		</div>
 		
@@ -100,21 +103,21 @@ span
 				<table style="float:left; ">
 					<tr>
 						<th style="width:100px">Trip ID</th>
-						<td style="width:260px"><%-- <%=logList.get(0).getTripId() %> --%></td>
+						<td style="width:260px"><span id="voTripId"></span></td>
 						<th style="width:100px">날짜</th>
-						<td></td>
+						<td><span id="voInsDte"></span></td>
 					</tr>
 					<tr>
 						<th>사용자 ID</th>
-						<td></td>
+						<td><span id="voUserId"></span></td>
 						<th>주행 거리</th>
-						<td></td>
+						<td><span id="voDrvDistance"></span></td>
 					</tr>
 					<tr>
 						<th>차량번호</th>
-						<td></td>
+						<td><span id="voCarNo"></span></td>
 						<th>운행시간</th>
-						<td></td>
+						<td><span id="voDrvTime"></span></td>
 					</tr>
 				</table>
 			</div>
@@ -253,24 +256,79 @@ span
 	</div>
 </body>
 <script type="text/javascript">
-function changeCarSelect(){
-	var carSelected = document.getElementById("carId").value;
+function changeCar(){
+	var carSelected = $('#carId').val();
+	var insDte = $('#insDte').val();
 	console.log("선택된 차량 : " + carSelected);
+	console.log("선택된 날짜 : " + insDte);
 	var $target = $("select[name='tripName']");
 	var $option = $("select[name='tripName'] option");
 	$.ajax({
 		type: 'post', 
 		url: "/car/post", 
 		async: false, 
-		data: {carNo : carSelected}, // 서버로 보낼 데이터 
+		data: {
+			carNo : carSelected,
+			insDte : insDte
+		}, // 서버로 보낼 데이터 
 		success: function(data) {
 			$option.remove();
-			$target.append("<option value=''>Trip을 선택해주세요</option>");
+			$target.append("<option value=''>Trip을 선택해주세요.</option>");
 			
 			if(data.length == 0) {
 			} else {
 				$(data).each(function(i){
 					$target.append("<option value="+data[i].tripId+">"+data[i].tripId+"</option>");
+				})
+			}
+			changeTrip();
+		}, error:function(xhr) {
+			console.log(xhr.responseText);
+			alert("system doesn't proceed this process");
+			return;
+		}
+	});
+	
+}
+function changeTrip(){
+	var selectedTrip = document.getElementById("tripId").value;
+	var insDte = $('#insDte').val();
+	console.log("선택된 Trip ID : " + selectedTrip);
+	console.log("선택된 날짜 : " + $('#insDte').val() + '/' + insDte);
+	$.ajax({
+		type: 'post', 
+		url: "/car/json", 
+		async: false, 
+		data: {
+					tripId : selectedTrip, 
+					insDte : insDte
+		}, // 서버로 보낼 데이터 
+		success: function(data) {
+			if(data.length == 0) {
+				$('#voTripId').empty();
+				$('#voInsDte').empty();
+				$('#voCarNo').empty();
+				$('#voUserId').empty();
+				$('#voDrvDistance').empty();
+				$('#voDrvTime').empty();
+				$('#voStTime').empty();
+				$('#voEndTime').empty();
+				$('#voStGps').empty();
+				$('#voEndGps').empty();
+			} else {
+				$(data).each(function(i){
+					console.log(data[i]);
+					console.log(data[i]["carNo"]);
+					$('#voTripId').text(data[i]["tripId"]);
+					$('#voInsDte').text(data[i]["insDte"]);
+					$('#voCarNo').text(data[i]["carNo"]);
+					$('#voUserId').text(data[i]["userId"]);
+					$('#voDrvDistance').text(data[i]["DRIVING_DISTANCE"]);
+					$('#voDrvTime').text(data[i]["DRIVING_TIME"]);
+					$('#voStTime').text(data[i]["START_TIME"]);
+					$('#voEndTime').text(data[i]["END_TIME"]);
+					$('#voStGps').text(data[i]["START_GPS"]);
+					$('#voEndGps').text(data[i]["END_GPS"]);
 				})
 			}
 		}, error:function(xhr) {
@@ -282,5 +340,9 @@ function changeCarSelect(){
 	
 }
 
+function changeDate(){
+	if($('#insDte').val() != null) changeCar(); 
+	changeTrip();
+}
 </script>
 </html>

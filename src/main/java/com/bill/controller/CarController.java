@@ -1,5 +1,6 @@
 package com.bill.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -104,12 +105,13 @@ public class CarController {
 	public List<CarMainVO> getTripNumber( HttpServletRequest request, @RequestParam Map<String, Object> param ) throws Exception {
 		
 		System.out.println("CarController.selectTrip() ");
+		System.out.println("param=>"+param);
 		
-		String carNumber = request.getParameter("carNo");
-		System.out.println(carNumber);
+		List<CarMainVO> tripListAll = sqlSession.selectList(Namespace + ".selectTripAll", param);
+		System.out.println("tripListAll=>"+tripListAll);
 		
-		List<CarMainVO> tripList = sqlSession.selectList(Namespace + ".selectTrip", carNumber);
-		System.out.println(tripList);
+		List<CarMainVO> tripList = sqlSession.selectList(Namespace + ".selectTrip", param);
+		System.out.println("tripList=>"+tripList);
 		
 		return tripList;
 	}
@@ -123,10 +125,16 @@ public class CarController {
 		
 		System.out.println("CarController.selectTripData() ");
 		
-		String tripId = request.getParameter("tripId");
-		System.out.println(tripId);
+		System.out.println(request.getParameter("tripId"));
+		System.out.println(request.getParameter("insDte"));
 		
-		List<CarLogVO> tripList = sqlSession.selectList(Namespace + ".selectTripData", tripId);
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("tripId", request.getParameter("tripId"));
+		map.put("insDte", request.getParameter("insDte"));
+		map.put("userId", "user1");
+		
+		System.out.println("map==>" + map);
+		List<CarLogVO> tripList = sqlSession.selectList(Namespace + ".selectTripData", map);
 		System.out.println(tripList);
 		
 		return tripList;

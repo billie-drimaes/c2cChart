@@ -23,33 +23,52 @@
  	
  	<!-- Trip 조회 -->
  	<select id="selectTrip" resultType="CarMainVO" parameterType="String">
-		SELECT tripId FROM tripInfo WHERE carNo = #{carNumber}
+		SELECT tripId 
+		  FROM tripInfo 
+		 WHERE 1=1
+		   AND carNo 	= #{carNo}
+		   AND insDte = if(#{insDte} IS NULL OR #{insDte}='', insDte, #{insDte})
  	</select>
  	
  	
- 	<!-- Trip 조회 -->
- 	<select id="selectCarTrip" resultType="java.util.HashMap" parameterType="java.util.HashMap">
-		SELECT tripId FROM tripInfo 
+ 	<!-- Trip 조회 (all) -->
+ 	<select id="selectTripAll" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		SELECT tripId 
+		  FROM tripInfo 
 		 WHERE carNo = #{carNo}
  	</select>
  	
  	
- 	<!-- 개별차량 - 로그 : 테이블 데이터  -->
- 	<select id="selectTripData" resultType="CarLogVO" parameterType="String">
- 		SELECT t1.tripId
+ 	<!-- 개별차량 - 로그 : 테이블 데이터  
+ 		 파라미터 1. 트립 아이디 (tripId)
+ 		 		 2. 트립시작날짜 (insDte) : 트립 기준으로 조회해야하므로 tripInfo 테이블에서 조회한다.  
+ 	-->
+ 	<select id="selectTripData" resultType="CarLogVO" parameterType="java.util.HashMap">
+ 		SELECT 
+				t2.id
+			 , t1.obdNo
 			 , t1.insDte
-		 	, (select DRIVING_DISTANCE FROM mqttdata WHERE tripid = #{tripId}  ORDER BY ID desc LIMIT 1) DRIVING_DISTANCE
-			, (select DRIVING_TIME FROM mqttdata WHERE tripid = #{tripId}  ORDER BY ID desc LIMIT 1) DRIVING_TIME
-			, t2.carNo
-			, t2.userId
-			, (select TIME FROM mqttdata WHERE tripid = #{tripId}  ORDER BY ID  LIMIT 1) START_TIME
-			, (select TIME FROM mqttdata WHERE tripid = #{tripId}  ORDER BY ID desc LIMIT 1) END_TIME
-			, (SELECT CONCAT(LATITUDE,'/',LONGITUDE,'/',ALTITUDE) FROM mqttdata WHERE tripid = #{tripId} AND LATITUDE IS NOT null ORDER BY ID  LIMIT 1) START_GPS
-			, (SELECT CONCAT(LATITUDE,'/',LONGITUDE,'/',ALTITUDE)  FROM mqttdata WHERE tripid = #{tripId} AND LATITUDE IS NOT null ORDER BY ID DESC LIMIT 1) END_GPS
-	  FROM mqttdata t1
-	  LEFT JOIN carInfo t2 ON t1.obdNo = t2.obdNo 
-	 WHERE t1.tripid = #{tripId}  
-	 GROUP BY t1.tripid
+			 , t3.carNo
+			 , t1.tripId
+			 , (SELECT DRIVING_DISTANCE FROM mqttdata WHERE userId = #{userId} and tripid = #{tripId} ORDER BY ID desc LIMIT 1) DRIVING_DISTANCE 
+			 , (SELECT DRIVING_TIME FROM mqttdata WHERE userId = #{userId} and tripid = #{tripId} ORDER BY ID desc LIMIT 1) DRIVING_TIME 
+			 , t3.userId
+			 , t2.TIME
+			 , (SELECT CONCAT(LATITUDE,'/',LONGITUDE,'/',ALTITUDE) FROM mqttdata WHERE userId = #{userId} and tripid = #{tripId} AND LATITUDE IS NOT null ORDER BY ID LIMIT 1) START_GPS
+			 , (SELECT CONCAT(LATITUDE,'/',LONGITUDE,'/',ALTITUDE) FROM mqttdata WHERE userId = #{userId} and tripid = #{tripId} AND LATITUDE IS NOT null ORDER BY ID DESC LIMIT 1) END_GPS 
+			 , (SELECT TIME FROM mqttdata WHERE userId = #{userId} and tripid = #{tripId} ORDER BY ID LIMIT 1) START_TIME 
+			 , (SELECT TIME FROM mqttdata WHERE userId = #{userId} and tripid = #{tripId} ORDER BY ID desc LIMIT 1) END_TIME 
+		  FROM tripInfo t1
+    LEFT JOIN mqttdata t2 
+  		    ON t1.tripId = t2.tripId
+		   AND t1.obdNo = t2.obdNo
+	 LEFT JOIN carInfo t3
+  	 		 ON t1.obdNo = t3.obdNo
+		 WHERE 1=1
+		   AND t1.tripId = #{tripId}
+		   AND t1.insDte = IF( #{insDte} IS NULL OR #{insDte} = '' , t1.insDte, #{insDte})
+		   AND t3.userId = #{userId}
+	  GROUP BY t1.tripId 	  
 	
  	</select>
  </mapper>
