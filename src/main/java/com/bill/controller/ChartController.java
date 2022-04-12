@@ -1,4 +1,4 @@
-package com.bill.springTest.gson;
+package com.bill.controller;
 
 import java.util.List;
 import java.util.Locale;
@@ -28,10 +28,7 @@ import com.bill.dao.speed.speedDAO;
 import com.bill.vo.speed.speedVO;
 
 @Controller
-public class GsonController {
-	
-
-	private static final Logger logger = LoggerFactory.getLogger(GsonController.class);
+public class ChartController {
 
 	@Autowired
 	GsonDAO gsonDao;
@@ -39,15 +36,6 @@ public class GsonController {
 	speedDAO speedDao;
     @Inject
     private fuelService service;
-
-
-	@RequestMapping(value = "gson", method = RequestMethod.GET)
-
-	public String gson(Locale locale, Model model) {
-
-		return "gson";
-
-	}
 
 	@RequestMapping(value = "gsonList", method = RequestMethod.GET, produces="text/plain;charset=UTF-8")
 
