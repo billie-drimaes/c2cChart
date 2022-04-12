@@ -4,7 +4,7 @@ public class gsonVO {
 	
     private String time;
     private String rpm;
-    private String route;
+    private String insDte;
  
     public String getTime() {
         return time;
@@ -22,12 +22,12 @@ public class gsonVO {
         this.rpm = rpm;
     }
     
-    public String getRoute() {
-        return route;
+    public String getInsDte() {
+        return insDte;
     }
  
-    public void setRoute(String route) {
-        this.route = route;
+    public void setInsDte(String insDte) {
+        this.insDte = insDte;
     }
 
 }

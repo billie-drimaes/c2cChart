@@ -5,9 +5,9 @@
 <!-- 제이쿼리 호출/ statMain에서 불러온 jquery와 충돌이 발생하여 주석처리
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" type="text/javascript"></script>
 -->
-<!-- chart.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
-
+<!-- chart.js option에서 time사용하려면 Chart.min.js가 아닌 Chart.bundle.js 사용해야함-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.20/lodash.min.js"></script>
 
 <html>
@@ -95,7 +95,7 @@
         }
         
         }
-	
+
     function chart(chartId){      	
                      	
         if(chartId=="pro1"){
@@ -126,7 +126,15 @@
 				},
 				legend:{
 					display:false
-				}
+				},
+		       scales: {
+		    	   xAxes: [{
+		    		   type: 'time',
+		    		   time: {
+		    			   unit: 'day'
+		    		   }
+		              }]
+		       }
 			},
 			data:{
 				labels:labelData,
@@ -140,20 +148,29 @@
 		});
     	
     }
+  	
 </script>
 </head>
 <body>
-	<div class="chartBox" style="width: 1200px; height: 500px; margin-left:30px;">
+	<div class="chartBox" style="width: 1200px; height: 600px; margin-left:30px;border:1px solid black;">
 	    <form name="input" method = "POST" >
-	            <div style="width: 1000px; height:20px;margin-left:300px;">	        		
-	            <input type="radio" name="chart_choice" id="pro1" value="s" onclick="chart(this.id)" >EnginRpm
-	            <input type="radio" name="chart_choice" id="pro2" value="m" onclick="chart(this.id)" >fuelLevel
-	            <input type="radio" name="chart_choice" id="pro3" value="l" onclick="chart(this.id)" >Vehicle Speed</div>
-	            <div style="width: 1000px; height: 500px;margin-right:30;float:right"><canvas id="myChart"></canvas></div>
-	            <div style="width: 30px; height:210px;margin-top:200px;margin-left:30;" align="left">
-	            <label><input type="radio" name="time_set" id="ms" onclick="timeSet()" style="margin:0;vertical-align:middle;" checked>년</label>
-	            <label><input type="radio" name="time_set" id="s" onclick="timeSet()" style="margin-right:0;vertical-align:middle;">월</label>
-	            <label><input type="radio" name="time_set" id="m" onclick="timeSet()" style="margin:0;vertical-align:middle;">일</label>
+	            <div style="width: 450px; height:20px;margin-top:20px;margin-left:30%">	        		
+	            <input type="radio" name="chart_choice" id="pro1" value="s" onclick="chart(this.id)" >평균속도&nbsp;
+	            <input type="radio" name="chart_choice" id="pro2" value="m" onclick="chart(this.id)" >평균연비&nbsp;
+	            <input type="radio" name="chart_choice" id="pro3" value="l" onclick="chart(this.id)" >총 이동거리&nbsp;
+   	            <input type="radio" name="chart_choice" id="pro3" value="l" onclick="chart(this.id)" >트립 별 이동거리<br>
+   	            <input type="radio" name="chart_choice" id="pro3" value="l" onclick="chart(this.id)" >총 공회전시간&nbsp;
+   	            <input type="radio" name="chart_choice" id="pro3" value="l" onclick="chart(this.id)" >급가속횟수&nbsp;             
+   	            <input type="radio" name="chart_choice" id="pro3" value="l" onclick="chart(this.id)" >급감속횟수&nbsp;             
+   	            <input type="radio" name="chart_choice" id="pro3" value="l" onclick="chart(this.id)" >엔진실화횟수&nbsp;           
+	            </div>
+	            <div style="width: 1000px; height: 500px;margin:30px;float:right"><canvas id="statChart"></canvas></div>
+	            <div style="width: 80px; height:100px;margin-top:200px;margin-left:20px;border:1px solid black;font-size:0.8em; padding-left:10px" align="left">
+	              시간단위 설정<br><br>
+	              <!-- 시간단위가 선택되면 timeFrame 함수 실행 , 일단위로 default 체크되어 있음 -->
+	            <label><input type="radio" value="year" onclick="timeFrame(this)">년</label><br>
+	            <label><input type="radio" value="month" onclick="timeFrame(this)">월</label><br>
+	            <label><input type="radio" value="day" onclick="timeFrame(this)" checked>일</label><br>
 	            </div>
 	    </form>
 	</div>
@@ -187,19 +204,17 @@
 					//data: {time:87209,fuelLevel:78}
 					success:function(data){
 						for (let i = 0; i<data.length;i++){
-							rpmTimeList.push(data[i].time);
+							rpmTimeList.push(data[i].insDte);
 							rpmList.push(data[i].rpm);
 						}
-						console.log("timeList")
-						console.log("rpmlList")
+						console.log("ajax-rpmlList")
 					},
 					error:function(request,status,error,data){
 						alert(request.status+"\n"+request.responseText+"\n"+error+"\n"+data);
 					}
 				})//ajax
 			}//getGraph
-</script>
-<script type="text/javascript">
+
 			$(document).ready(function(){
 				getGraph2()
 			})
@@ -217,21 +232,18 @@
 							fuelTimeList.push(data[i].time);
 							fuelList.push(data[i].Fuel);
 						}
-						console.log("fuelTimeList")
-						console.log("fuelList")
+						console.log("ajax-fuelTimeList")
 					},
 					error:function(request,status,error,data){
 						alert(request.status+"\n"+request.responseText+"\n"+error+"\n"+data);
 					}
 				})//ajax
 			}//getGraph
-</script>
-<script type="text/javascript">
 			$(document).ready(function(){
 				getGraph3()
 			})
 			let speedTimeList = [];
-			let speedList = [];			
+			let speedList = [];	
 			function getGraph3(){
 				$.ajax({
 					url:location.href.split('/')[0]+"/speedList",
@@ -240,16 +252,49 @@
 					contentType:"application/json;cahrset=utf-8",
 					//data: {time:87209,fuelLevel:78}
 					success:function(data){
+						console.log(typeof(data));
 						for (let i = 0; i<data.length;i++){
-							speedTimeList.push(data[i].time);
+							speedTimeList.push(data[i].insDte);
 							speedList.push(data[i].speed);
 						}
-						console.log("speedTimeList")
-						console.log("speedList")
+						console.log("ajax - speedList")
 					},
 					error:function(request,status,error,data){
 						alert(request.status+"\n"+request.responseText+"\n"+error+"\n"+data);
 					}
 				})//ajax
 			}//getGraph
+			const context = document.getElementById('statChart')
+			const statChart = new Chart(context,{
+				type:"line",
+				options:{
+					legend:{
+						display:false
+					},
+				      scales: {
+				   	   xAxes: [{
+				   		   type: 'time',
+				   		   time: {
+				   			   unit: 'day'
+				   		   }}]
+				      }
+					},
+				data:{
+					labels:labelData,
+					datasets: [{
+						data: featureData,
+						borderColor:"#3e95cd",
+						fill: false
+					}]
+				}});
+			}
+			//시간 단위 선택하면 실행 되는 함수 
+			function timeFrame(period){
+				//console.log(period.value);
+				if(period.value =='day'){
+					var labelData = speedTimeList;
+					var featureData= speedList;
+				}
+				
+		    		     
 </script>

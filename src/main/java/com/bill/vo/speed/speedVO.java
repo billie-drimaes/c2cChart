@@ -4,7 +4,7 @@ public class speedVO {
 	
     private String time;
     private String speed;
-    private String route;
+    private String insDte;
  
     public String getTime() {
         return time;
@@ -22,11 +22,11 @@ public class speedVO {
         this.speed = speed;
     }
     
-    public String getRoute() {
-        return route;
+    public String getinsDte() {
+        return insDte;
     }
  
-    public void setRoute(String route) {
-        this.route = route;
+    public void setinsDte(String insDte) {
+        this.insDte = insDte;
     }
 }

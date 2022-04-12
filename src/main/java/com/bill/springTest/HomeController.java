@@ -173,7 +173,7 @@ public class HomeController implements MqttCallback {
 		System.out.println(message);
 		System.out.println("topic : " + topic + ", id : " + message.getId() + ", payload : " + new String(message.getPayload()));
 		
-		messageInsertToDB(topic, message);
+		//messageInsertToDB(topic, message);
 	}
 
 	@Override
@@ -181,7 +181,7 @@ public class HomeController implements MqttCallback {
 		// TODO Auto-generated method stub
 		
 	} 
-
+/*
 	@RequestMapping(value="/")
 	public ModelAndView messageInsertToDB(String topic, MqttMessage message) {		
 		ModelAndView mav = new ModelAndView();
@@ -202,7 +202,7 @@ public class HomeController implements MqttCallback {
 
 		return mav;
 	}
-	
+	*/
 	// 구독 신청
 	public boolean subscribe(String topic) {
 		

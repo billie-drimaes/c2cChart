@@ -53,7 +53,7 @@ span
 		<!-- 첫번째 라인 -->
 		<div align="left" >
 			<!-- DB의 carInfo 테이블에서 차량번호를 가져와 선택하도록 함 / infoMapper-->
-			<select name="selectBox" style="width:400px; height:30px" onchange="selectCar(this)">
+			<select name="selectBox" style="width:400px; height:30px; margin-left:30px;" onchange="selectCar(this)">
    		  		<option>차량번호 선택</option>
       			<c:forEach var="info" items="${carList}" varStatus="i">
          			<option value="${info.carNo}">${info.carNo}</option>
@@ -62,16 +62,17 @@ span
 		</div>
 		<!-- 두번째 라인 -->
 		<div align="left" >
-			차량: 12가1234
+			<div style="margin-left:30px;">차량: 12가1234</div>
 		</div>
 		<!-- 세번째 라인 -->
 		<div align="left" >
 			<!-- 달력 삽입-->
-			<div align="left" style="width:100%">
+			<div align="left" style="width:100%; margin-left:30px;">
 				FROM
-				<input name="from" autocomplete="off" readonly="readonly">
+				<!-- <input name="from" autocomplete="off" readonly="readonly">  -->
+				<input type="date" id="datePicker_from" style="width:295px;">
 				&nbsp;TO
-				<input name="to" autocomplete="off" readonly="readonly">
+				<input type="date" id="datePicker_to" style="width:295px;">
 				&nbsp;
 				<button style="width:10%;">조회</button>
 			</div>
@@ -83,12 +84,11 @@ span
 		</div>
 	</div>
 	<script>
+	/* datepicker 삽입 function, 현재 코드에서는 사용 불필요
 		$(function() {
 			  $( "input[name='from']" ).datepicker();
-			});
-		$(function() {
-			  $( "input[name='to']" ).datepicker();
-			});
+			}); */
+	
 	</script> 
 </body> 
 </html> 
