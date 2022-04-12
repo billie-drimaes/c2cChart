@@ -41,60 +41,6 @@
 		  }
 		  return clone;
 		}
-	
-	function timeSet(){
-		 var labelData_mod = Object.values(labelData_ms);
-		 
-        var ch1 = document.input.ms.checked;
-        var ch2 = document.input.s.checked;
-        var ch3 = document.input.m.checked;
-        
-        var objArray=[];
-         
-        if(ch1){
-        	console.log(labelData_mod)
-        	graphChart.data.labels=labelData_mod;
-    		graphChart.data.datasets[0].data = featureData;
-        	graphChart.update();
-        }
-        else if(ch2){
-        		console.log(labelData_mod.length)
-        		for(let i =0;i<labelData_mod.length;i++) {
-        			var data_obj = {};
-        			labelData_mod[i] = Math.round(labelData_mod[i] / 1000);
-        			data_obj.time = labelData_mod[i];
-        			data_obj.value = featureData[i];
-        			objArray.push(data_obj);
-        		}
-        		//time기준으로 중복제거
-        		objArray = _.uniqBy(objArray,"time")
-       		arrayToList(objArray);
-        		graphChart.data.labels=labelData_uniq;
-        		graphChart.data.datasets[0].data = featureData_uniq;
-        		console.log(labelData_uniq)
-        		console.log(graphChart.data.datasets)
-        		graphChart.update();       		
-        }else if(ch3){
-    		for(let i =0;i<labelData_mod.length;i++) {
-    			var data_obj = {};
-    			labelData_mod[i] = Math.round(labelData_mod[i] / (1000*60));
-    			data_obj.time = labelData_mod[i];
-    			data_obj.value = featureData[i];
-    			objArray.push(data_obj);
-    		}
-    		//time기준으로 중복제거
-    		objArray = _.uniqBy(objArray,"time")
-   			arrayToList(objArray);
-    		graphChart.data.labels=labelData_uniq;
-    		//데이터 추가:
-    		//graphChart.data.datasets.push(featureData_uniq)
-    		graphChart.data.datasets[0].data = featureData_uniq;
-    		console.log(objArray);
-    		console.log(graphChart.data.datasets)
-    		graphChart.update();   
-        }
-        
-        }
 
     function chart(chartId){      	
                      	
@@ -168,9 +114,9 @@
 	            <div style="width: 80px; height:100px;margin-top:200px;margin-left:20px;border:1px solid black;font-size:0.8em; padding-left:10px" align="left">
 	              시간단위 설정<br><br>
 	              <!-- 시간단위가 선택되면 timeFrame 함수 실행 , 일단위로 default 체크되어 있음 -->
-	            <label><input type="radio" value="year" onclick="timeFrame(this)">년</label><br>
-	            <label><input type="radio" value="month" onclick="timeFrame(this)">월</label><br>
-	            <label><input type="radio" value="day" onclick="timeFrame(this)" checked>일</label><br>
+	            <label><input type="radio" name="timeUnit" value="YEAR" onclick="timeFrame(this)">년</label><br>
+	            <label><input type="radio" name="timeUnit" value="MONTH" onclick="timeFrame(this)">월</label><br>
+	            <label><input type="radio" name="timeUnit" value="DATE" onclick="timeFrame(this)" checked>일</label><br>
 	            </div>
 	    </form>
 	</div>
@@ -190,111 +136,127 @@
 </body>
 </html>
 <script type="text/javascript">
-			$(document).ready(function(){
-				getGraph()
-			})
-			let rpmTimeList = [];
-			let rpmList = [];
-			function getGraph(){
-				$.ajax({
-					url:location.href.split('/')[0]+"/gsonList",
-					type:"get",
-					dataType:"json",
-					contentType:"application/json;cahrset=utf-8",
-					//data: {time:87209,fuelLevel:78}
-					success:function(data){
-						for (let i = 0; i<data.length;i++){
-							rpmTimeList.push(data[i].insDte);
-							rpmList.push(data[i].rpm);
-						}
-						console.log("ajax-rpmlList")
-					},
-					error:function(request,status,error,data){
-						alert(request.status+"\n"+request.responseText+"\n"+error+"\n"+data);
+		$(document).ready(function(){
+			getGraph()
+		})
+		let rpmTimeList = [];
+		let rpmList = [];
+		function getGraph(){
+			$.ajax({
+				url:location.href.split('/')[0]+"/gsonList",
+				type:"get",
+				dataType:"json",
+				contentType:"application/json;cahrset=utf-8",
+				//data: {time:87209,fuelLevel:78}
+				success:function(data){
+					for (let i = 0; i<data.length;i++){
+						rpmTimeList.push(data[i].insDte);
+						rpmList.push(data[i].rpm);
 					}
-				})//ajax
-			}//getGraph
-
-			$(document).ready(function(){
-				getGraph2()
-			})
-			let fuelTimeList = [];
-			let fuelList = [];			
-			function getGraph2(){
-				$.ajax({
-					url:location.href.split('/')[0]+"/fuelList",
-					type:"get",
-					dataType:"json",
-					contentType:"application/json;cahrset=utf-8",
-					//data: {time:87209,fuelLevel:78}
-					success:function(data){
-						for (let i = 0; i<data.length;i++){
-							fuelTimeList.push(data[i].time);
-							fuelList.push(data[i].Fuel);
-						}
-						console.log("ajax-fuelTimeList")
-					},
-					error:function(request,status,error,data){
-						alert(request.status+"\n"+request.responseText+"\n"+error+"\n"+data);
-					}
-				})//ajax
-			}//getGraph
-			$(document).ready(function(){
-				getGraph3()
-			})
-			let speedTimeList = [];
-			let speedList = [];	
-			function getGraph3(){
-				$.ajax({
-					url:location.href.split('/')[0]+"/speedList",
-					type:"get",
-					dataType:"json",
-					contentType:"application/json;cahrset=utf-8",
-					//data: {time:87209,fuelLevel:78}
-					success:function(data){
-						console.log(typeof(data));
-						for (let i = 0; i<data.length;i++){
-							speedTimeList.push(data[i].insDte);
-							speedList.push(data[i].speed);
-						}
-						console.log("ajax - speedList")
-					},
-					error:function(request,status,error,data){
-						alert(request.status+"\n"+request.responseText+"\n"+error+"\n"+data);
-					}
-				})//ajax
-			}//getGraph
-			const context = document.getElementById('statChart')
-			const statChart = new Chart(context,{
-				type:"line",
-				options:{
-					legend:{
-						display:false
-					},
-				      scales: {
-				   	   xAxes: [{
-				   		   type: 'time',
-				   		   time: {
-				   			   unit: 'day'
-				   		   }}]
-				      }
-					},
-				data:{
-					labels:labelData,
-					datasets: [{
-						data: featureData,
-						borderColor:"#3e95cd",
-						fill: false
-					}]
-				}});
-			}
-			//시간 단위 선택하면 실행 되는 함수 
-			function timeFrame(period){
-				//console.log(period.value);
-				if(period.value =='day'){
-					var labelData = speedTimeList;
-					var featureData= speedList;
+					console.log("ajax-rpmlList")
+				},
+				error:function(request,status,error,data){
+					alert(request.status+"\n"+request.responseText+"\n"+error+"\n"+data);
 				}
-				fsffsfsfsf
-		    		     
+			})//ajax
+		}//getGraph
+
+		$(document).ready(function(){
+			getGraph2()
+		})
+		let fuelTimeList = [];
+		let fuelList = [];			
+		function getGraph2(){
+			$.ajax({
+				url:location.href.split('/')[0]+"/fuelList",
+				type:"get",
+				dataType:"json",
+				contentType:"application/json;cahrset=utf-8",
+				//data: {time:87209,fuelLevel:78}
+				success:function(data){
+					for (let i = 0; i<data.length;i++){
+						fuelTimeList.push(data[i].time);
+						fuelList.push(data[i].Fuel);
+					}
+					console.log("ajax-fuelTimeList")
+				},
+				error:function(request,status,error,data){
+					alert(request.status+"\n"+request.responseText+"\n"+error+"\n"+data);
+				}
+			})//ajax
+		}//getGraph
+		$(document).ready(function(){
+			getGraph3()
+		})
+		let speedTimeList = [];
+		let speedList = [];	
+		function getGraph3(){
+			$.ajax({
+				url:location.href.split('/')[0]+"/speedList",
+				type:"get",
+				dataType:"json",
+				contentType:"application/json;cahrset=utf-8",
+				//data: {time:87209,fuelLevel:78}
+				success:function(data){
+					for (let i = 0; i<data.length;i++){
+						speedTimeList.push(data[i].insDte);
+						speedList.push(data[i].speed);
+					}
+					console.log("ajax - speedList")
+				},
+				error:function(request,status,error,data){
+					alert(request.status+"\n"+request.responseText+"\n"+error+"\n"+data);
+				}
+			})//ajax
+		}//getGraph
+</script>
+<script type="text/javascript">
+		const statChart = new Chart(document.getElementById('statChart'),{
+			type:"line",
+			options:{
+				legend:{
+					display:false
+				},
+			      scales: {
+			   	   x: {
+			   		   type: 'time',
+			   		   time: {
+			   			   unit: 'day'
+			   		   }}
+			      }
+				},
+			data:{
+				labels:labelData,
+				datasets: [{
+					data: featureData,
+					borderColor:"#3e95cd",
+					fill: false
+				}]
+			}});
+		//시간 단위 선택하면 실행 되는 함수
+		function timeFrame(period){
+			let periodValue = period.value;
+			let timeList = [];
+			let valueList = [];	
+			$.ajax({
+				type:"post",
+				url:"/stat/time",
+				async: false,
+				data: {period : periodValue},
+				success: function(data){
+					for (let i = 0; i<data.length;i++){
+						timeList.push(data[i].date);
+						valueList.push(data[i].value);
+					}
+					statChart.data.labels=timeList;
+					statChart.data.datasets[0].data = valueList;
+					console.log(valueList);
+					statChart.options.scales.x.time.unit = periodValue;
+					statChart.update();
+				}, error:function(request,status,error){
+					alert("error:"+request.status);
+				}
+
+			})
+		}	     
 </script>
