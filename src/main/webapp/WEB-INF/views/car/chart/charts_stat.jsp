@@ -13,102 +13,19 @@
 <html>
 <head>
 <title>EngineRpm</title>
-<script type="text/javascript">
-	var graphChart;
-	let labelData_ms;
-	var labelData;  
-	var featureData;
-	
-	var labelData_uniq;
-	var featureData_uniq;
-	function arrayToList(arr) {
-		labelData_uniq=[];
-		featureData_uniq=[];
-		for (let i = 0; i<arr.length;i++){
-			labelData_uniq.push(arr[i].time);
-			featureData_uniq.push(arr[i].value);
-		}
-	}
-	//깊은복사를 위한 재귀함수 정의
-	function cloneObject(obj) {
-		  var clone = {};
-		  for (var key in obj) {
-		    if (typeof obj[key] == "object" && obj[key] != null) {
-		      clone[key] = cloneObject(obj[key]);
-		    } else {
-		      clone[key] = obj[key];
-		    }
-		  }
-		  return clone;
-		}
-
-    function chart(chartId){      	
-                     	
-        if(chartId=="pro1"){
-        	labelData= rpmTimeList
-        	featureData= rpmList
-        	chartName="Engine RPM"
-        }else if(chartId=="pro2"){
-        	labelData= fuelTimeList
-        	featureData= fuelList
-        	chartName="Fuel Level"
-        }else if(chartId=="pro3"){
-        	labelData= speedTimeList
-        	featureData= speedList
-        	chartName="Vehicle Speed"
-        }
-        labelData_ms = cloneObject(labelData); //깊은복사
-        var context = document.getElementById('myChart');
-        if(graphChart!==undefined){
-        	console.log("destroy")
-        	graphChart.destroy()
-        }
-        graphChart = new Chart(context,{
-			type:"line",
-			options:{
-				title:{
-					display: true,
-					text:chartName
-				},
-				legend:{
-					display:false
-				},
-		       scales: {
-		    	   xAxes: [{
-		    		   type: 'time',
-		    		   time: {
-		    			   unit: 'day'
-		    		   }
-		              }]
-		       }
-			},
-			data:{
-				labels:labelData,
-				datasets: [{
-					data: featureData,
-					//label: "fuelLevel",
-					borderColor:"#3e95cd",
-					fill: false
-				}]
-			}
-		});
-    	
-    }
-  	
-</script>
 </head>
 <body>
 	<div class="chartBox" style="width: 1200px; height: 600px; margin-left:30px;border:1px solid black;">
 	    <form name="input" method = "POST" >
 	            <div style="width: 450px; height:20px;margin-top:20px;margin-left:30%">	        		
-	            <input type="radio" name="chart_choice" id="pro1" value="s" onclick="chart(this.id)" >평균속도&nbsp;
-	            <input type="radio" name="chart_choice" id="pro2" value="m" onclick="chart(this.id)" >평균연비&nbsp;
-	            <input type="radio" name="chart_choice" id="pro3" value="l" onclick="chart(this.id)" >총 이동거리&nbsp;
-   	            <input type="radio" name="chart_choice" id="pro3" value="l" onclick="chart(this.id)" >트립 별 이동거리<br>
-   	            <input type="radio" name="chart_choice" id="pro3" value="l" onclick="chart(this.id)" >총 공회전시간&nbsp;
-   	            <input type="radio" name="chart_choice" id="pro3" value="l" onclick="chart(this.id)" >급가속횟수&nbsp;             
-   	            <input type="radio" name="chart_choice" id="pro3" value="l" onclick="chart(this.id)" >급감속횟수&nbsp;             
-   	            <input type="radio" name="chart_choice" id="pro3" value="l" onclick="chart(this.id)" >엔진실화횟수&nbsp;           
+	            <input type="radio" name="chart_choice" value="speed" onclick="selectChart(this)" >평균속도&nbsp;
+	            <input type="radio" name="chart_choice" value="mileage" onclick="selectChart(this)" >평균연비&nbsp;
+	            <input type="radio" name="chart_choice" value="distance" onclick="selectChart(this)" >총 이동거리&nbsp;
+   	            <input type="radio" name="chart_choice" value="tripDistance" onclick="selectChart(this)" >트립 별 이동거리<br>
+   	            <input type="radio" name="chart_choice" value="idling" onclick="selectChart(this)" >총 공회전시간&nbsp;
+   	            <input type="radio" name="chart_choice" value="acceleration" onclick="selectChart(this)" >급가속횟수&nbsp;             
+   	            <input type="radio" name="chart_choice" value="deceleration" onclick="selectChart(this)" >급감속횟수&nbsp;             
+   	            <input type="radio" name="chart_choice" value="engineMisfire" onclick="selectChart(this)" >엔진실화횟수&nbsp;           
 	            </div>
 	            <div style="width: 1000px; height: 500px;margin:30px;float:right"><canvas id="statChart"></canvas></div>
 	            <div style="width: 80px; height:100px;margin-top:200px;margin-left:20px;border:1px solid black;font-size:0.8em; padding-left:10px" align="left">
@@ -211,6 +128,8 @@
 		}//getGraph
 </script>
 <script type="text/javascript">
+		let labelData;
+		let featureData;
 		const statChart = new Chart(document.getElementById('statChart'),{
 			type:"line",
 			options:{
@@ -233,6 +152,10 @@
 					fill: false
 				}]
 			}});
+		let column;
+		function selectChart(col){
+			columnValue = col.value;
+		}
 		//시간 단위 선택하면 실행 되는 함수
 		function timeFrame(period){
 			let periodValue = period.value;
@@ -242,7 +165,7 @@
 				type:"post",
 				url:"/stat/time",
 				async: false,
-				data: {period : periodValue},
+				data: {period : periodValue, column : columnValue},
 				success: function(data){
 					for (let i = 0; i<data.length;i++){
 						timeList.push(data[i].date);

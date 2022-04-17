@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.HashMap;
 
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
@@ -82,10 +83,14 @@ public class ChartController {
 	@RequestMapping(value="/stat/time", method = RequestMethod.POST)
 	public List<ChartVO> getChartList( HttpServletRequest request, @RequestParam Map<String, Object> param ) throws Exception {
 				
-		String period = request.getParameter("period");
-		System.out.println("select time unit:"+period);
 		
-		List<ChartVO> chartList = sqlSession.selectList(Namespace + ".getSpeedWithPeriod", period);
+		HashMap<String, String> timeMap = new HashMap<String, String>();
+		timeMap.put("period", request.getParameter("period"));
+		timeMap.put("column", request.getParameter("column"));
+		System.out.println("select time unit and column:"+timeMap);
+
+		
+		List<ChartVO> chartList = sqlSession.selectList(Namespace + ".getSpeedWithPeriod", timeMap);
 		System.out.println(chartList);
 		
 		return chartList;
