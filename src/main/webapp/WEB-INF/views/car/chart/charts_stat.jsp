@@ -128,8 +128,8 @@
 		}//getGraph
 </script>
 <script type="text/javascript">
-		let labelData;
-		let featureData;
+		let labelData =[];
+		let featureData = [];
 		const statChart = new Chart(document.getElementById('statChart'),{
 			type:"line",
 			options:{
@@ -155,17 +155,21 @@
 		let column;
 		function selectChart(col){
 			columnValue = col.value;
+			statChart.data.labels=[];
+			statChart.data.datasets[0].data = [];
+			statChart.update();
 		}
 		//시간 단위 선택하면 실행 되는 함수
 		function timeFrame(period){
 			let periodValue = period.value;
 			let timeList = [];
-			let valueList = [];	
+			let valueList = [];
+			//console.log(carSelected)
 			$.ajax({
 				type:"post",
 				url:"/stat/time",
 				async: false,
-				data: {period : periodValue, column : columnValue},
+				data: {period : periodValue, column : columnValue, carNum: carSelected},
 				success: function(data){
 					for (let i = 0; i<data.length;i++){
 						timeList.push(data[i].date);

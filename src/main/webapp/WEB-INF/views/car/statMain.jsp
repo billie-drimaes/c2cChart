@@ -53,7 +53,7 @@ span
 		<!-- 첫번째 라인 -->
 		<div align="left" >
 			<!-- DB의 carInfo 테이블에서 차량번호를 가져와 선택하도록 함 / infoMapper-->
-			<select name="selectBox" style="width:400px; height:30px; margin-left:30px;" onchange="selectCar(this)">
+			<select id="carNum" name="selectBox" style="width:400px; height:30px; margin-left:30px;" onchange="selectCar()">
    		  		<option>차량번호 선택</option>
       			<c:forEach var="info" items="${carList}" varStatus="i">
          			<option value="${info.carNo}">${info.carNo}</option>
@@ -90,5 +90,13 @@ span
 			}); */
 	
 	</script> 
-</body> 
+</body>
+<script type="text/javascript">
+let carSelected;
+function selectCar(){
+	carSelected = $('#carNum').val();
+	console.log("선택된 차량 : " + carSelected);
+	//console.log("선택된 날짜 : " + insDte);
+}
+</script>
 </html> 

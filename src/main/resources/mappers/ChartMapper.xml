@@ -37,6 +37,8 @@
 				WHEN (#{column}='engineMisfire') THEN 'no data'
 			END AS value
 		FROM mqttdata 
+		WHERE obdNo= (
+			select obdNo from carInfo where carNo=#{carNum})
 		GROUP BY date
     </select>
     

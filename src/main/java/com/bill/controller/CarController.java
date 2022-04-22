@@ -134,7 +134,7 @@ public class CarController {
 		System.out.println("map==>" + map);
 		List<CarLogVO> tripList = sqlSession.selectList(Namespace + ".selectTripData", map);
 		System.out.println(tripList);
-		
+
 		return tripList;
 	}
 	

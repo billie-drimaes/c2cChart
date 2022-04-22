@@ -87,6 +87,7 @@ public class ChartController {
 		HashMap<String, String> timeMap = new HashMap<String, String>();
 		timeMap.put("period", request.getParameter("period"));
 		timeMap.put("column", request.getParameter("column"));
+		timeMap.put("carNum", request.getParameter("carNum"));
 		System.out.println("select time unit and column:"+timeMap);
 
 		
