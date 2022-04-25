@@ -17,16 +17,6 @@
 <body>
 	<div class="chartBox" style="width: 1200px; height: 600px; margin-left:30px;border:1px solid black;">
 	    <form name="input" method = "POST" >
-	            <div style="width: 450px; height:20px;margin-top:20px;margin-left:30%">	        		
-	            <input type="radio" name="chart_choice" value="speed" onclick="selectChart(this)" >평균속도&nbsp;
-	            <input type="radio" name="chart_choice" value="mileage" onclick="selectChart(this)" >평균연비&nbsp;
-	            <input type="radio" name="chart_choice" value="distance" onclick="selectChart(this)" >총 이동거리&nbsp;
-   	            <input type="radio" name="chart_choice" value="tripDistance" onclick="selectChart(this)" >트립 별 이동거리<br>
-   	            <input type="radio" name="chart_choice" value="idling" onclick="selectChart(this)" >총 공회전시간&nbsp;
-   	            <input type="radio" name="chart_choice" value="acceleration" onclick="selectChart(this)" >급가속횟수&nbsp;             
-   	            <input type="radio" name="chart_choice" value="deceleration" onclick="selectChart(this)" >급감속횟수&nbsp;             
-   	            <input type="radio" name="chart_choice" value="engineMisfire" onclick="selectChart(this)" >엔진실화횟수&nbsp;           
-	            </div>
 	            <div style="width: 1000px; height: 500px;margin:30px;float:right"><canvas id="statChart"></canvas></div>
 	            <div style="width: 80px; height:100px;margin-top:200px;margin-left:20px;border:1px solid black;font-size:0.8em; padding-left:10px" align="left">
 	              시간단위 설정<br><br>
