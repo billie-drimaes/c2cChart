@@ -76,6 +76,6 @@ a {
 					<li><a href='../cars'>관리자페이지</a></li>
 				</ul>
 			</li> 
-		</ul> 
+		</ul>
 	</div> 
 </header>
