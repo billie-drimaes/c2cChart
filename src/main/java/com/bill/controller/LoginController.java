@@ -43,5 +43,16 @@ public class LoginController {
          }
         return mav;
        }
-
+    
+    @RequestMapping("logout.do")
+    public ModelAndView logout(HttpSession session, ModelAndView mav) {
+    	
+    	System.out.println("logout");
+    	userService.logout(session); 
+    	mav.setViewName("login/login"); 
+    	mav.addObject("message", "logout"); 
+    	
+    	return mav;
+      }
 }
+

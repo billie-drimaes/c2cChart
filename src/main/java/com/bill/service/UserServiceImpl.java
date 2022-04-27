@@ -24,5 +24,9 @@ public class UserServiceImpl implements UserService{
 		 return name; 
 	}
 	
+	@Override
+	public void logout(HttpSession session) {
+	 session.invalidate(); // 세션 초기화
+	 }
 
 }

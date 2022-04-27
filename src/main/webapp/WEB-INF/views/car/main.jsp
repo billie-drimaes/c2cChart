@@ -73,7 +73,7 @@ span
 %>
 <body>
 	<!-- 첫번째 라인 -->
-	<div style="float:left; width:100%; margin:1%;">
+	<div style="float:left; width:98%; margin:1%;">
 		<div align="left" >
 			<input type="date" id="insDte" style="width:295px;" onchange="changeDate()">
 		</div>

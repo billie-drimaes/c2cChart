@@ -6,4 +6,5 @@ import javax.servlet.http.HttpSession;
 
 public interface UserService {
 	 public String loginCheck(UserVO vo, HttpSession session);
+	 public void logout(HttpSession session);
 }

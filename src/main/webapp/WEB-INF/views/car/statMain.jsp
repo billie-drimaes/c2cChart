@@ -21,39 +21,15 @@
 	</jsp:include>
 </head>
 <style>
-/* 슬래시 모양 css 가져옴 */
-.slash {
-  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg"><line x1="0" y1="100%" x2="100%" y2="0" stroke="gray" /></svg>');
-}
-.backslash {
-  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg"><line x1="0" y1="0" x2="100%" y2="100%" stroke="gray" /></svg>');
-}
-.slash, .backslash { text-align: left; }
-.slash div, .backslash div { text-align: right; }
-/* 테이블은 div 크기만큼 늘려준다 */
-table{width:100%; height:100%}
-/* div는 오른쪽, 아래쪽에 여백을 둔다 */
-/* .container div 
-{
-	width:24.5%;
-	height:210px;
-} */
 div
 {
 	/* border:1px solid red; */ 
 	padding: 0px 10px 10px 0px; 
 	
 } 
-/*
-span
-{
-	color: red;
-	font-weight: border;
-	font-size: 1.5em;
-}*/
 </style>
 <body>
-	<div style="float:left; width:100%; margin:1%;">
+	<div style="float:left; width:98%; margin:1%;">
 		<!-- 첫번째 라인 -->
 		<div align="left" >
 			<!-- DB의 carInfo 테이블에서 차량번호를 가져와 선택하도록 함 / infoMapper-->
@@ -80,7 +56,7 @@ span
 		<!-- 네번째 라인 -->
 		<div align="left" >
 			<!-- 달력 삽입-->
-			<div align="left" style="width:100%; margin-left:30px;">
+			<div align="left" style="width:98%; margin-left:30px;">
 				FROM
 				<!-- <input name="from" autocomplete="off" readonly="readonly">  -->
 				<input type="text" id="datePicker_from" style="width:295px;" autocomplete="off">
