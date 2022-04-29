@@ -24,6 +24,8 @@ import com.bill.dao.CarDAO;
 import com.bill.service.CarService;
 import com.bill.vo.CarLogVO;
 import com.bill.vo.CarMainVO;
+import com.bill.vo.ChartVO;
+import com.google.gson.Gson;
 
 @Controller
 public class CarController {
@@ -96,7 +98,7 @@ public class CarController {
     	return "car/log";
     }
 	/*
-	 * 차량번호의 트립아이디 리스트를 가져온다. 
+	 * 차량번호의 트립아이디 리스트를 가져온다.
 	*/
 	@ResponseBody
 	@RequestMapping(value="/car/post", method = RequestMethod.POST)
@@ -127,15 +129,69 @@ public class CarController {
 		System.out.println(request.getParameter("insDte"));
 		
 		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("carNum", request.getParameter("carNum"));
 		map.put("tripId", request.getParameter("tripId"));
 		map.put("insDte", request.getParameter("insDte"));
 		map.put("userId", "user1");
 		
 		System.out.println("map==>" + map);
 		List<CarLogVO> tripList = sqlSession.selectList(Namespace + ".selectTripData", map);
-		System.out.println(tripList);
+		System.out.println("/car/json tripList=>"+ tripList);
 
 		return tripList;
 	}
 	
+    //rpm_chart.jsp에서 그래프 시간단위를 받아와 그에따른 데이터 값을 불러온다.
+	@ResponseBody
+	@RequestMapping(value="/car/rpmchart", method = RequestMethod.POST)
+	public List<ChartVO> getRpmChartList( HttpServletRequest request, @RequestParam Map<String, Object> param ) throws Exception {
+				
+		
+		HashMap<String, String> rpmMap = new HashMap<String, String>();
+		rpmMap.put("tripId", request.getParameter("tripId"));
+		rpmMap.put("carNum", request.getParameter("carNum"));
+//		System.out.println("/car/rpmchart rpm =>"+rpmMap);
+
+		
+		List<ChartVO> rpmChartList = sqlSession.selectList(Namespace + ".getRpm", rpmMap);
+//		System.out.println(rpmChartList);
+		
+		return rpmChartList;
+	}  
+	
+    //fuelchart.jsp에서 main.jsp로부터 받은 tripId,carNum값을 넘겨받아 mapper의 .getFuelLevel 호출
+	@ResponseBody
+	@RequestMapping(value="/car/fuelBar", method = RequestMethod.POST)
+	public List<ChartVO> getFuelChartList( HttpServletRequest request, @RequestParam Map<String, Object> param ) throws Exception {
+				
+		
+		HashMap<String, String> fuelMap = new HashMap<String, String>();
+		fuelMap.put("tripId", request.getParameter("tripId"));
+		fuelMap.put("carNum", request.getParameter("carNum"));
+//		System.out.println("/car/fuelchart FuelLevel =>"+fuelMap);
+
+		
+		List<ChartVO> fuelChartList = sqlSession.selectList(Namespace + ".getFuelLevel", fuelMap);
+//		System.out.println("fuelChartList"+fuelChartList);
+		
+		return fuelChartList;
+	}
+	
+    //fuelchart.jsp에서 main.jsp로부터 받은 tripId,carNum값을 넘겨받아 mapper의 .getMileage 호출
+	@ResponseBody
+	@RequestMapping(value="/car/milechart", method = RequestMethod.POST)
+	public List<ChartVO> getMileChartList( HttpServletRequest request, @RequestParam Map<String, Object> param ) throws Exception {
+				
+		
+		HashMap<String, String> mileMap = new HashMap<String, String>();
+		mileMap.put("tripId", request.getParameter("tripId"));
+		mileMap.put("carNum", request.getParameter("carNum"));
+		//System.out.println("/car/milechart Mileage =>"+mileMap);
+
+		
+		List<ChartVO> mileChartList = sqlSession.selectList(Namespace + ".getMileage", mileMap);
+		//System.out.println(mileChartList);
+		
+		return mileChartList;
+	} 
 }

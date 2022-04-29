@@ -22,73 +22,55 @@ if(graphChart_f!==undefined){
 }
  */
 
-var chartName = "FuelLevel";
-const fuelBar = new Chart(document.getElementById('fuelBar'),{
-	type:"horizontalBar",
+var chartName = "Mileage";
+const milechart = new Chart(document.getElementById('milechart'),{
+	type:"line",
 	options:{
+		title:{
+			display: true,
+			text:chartName
+		},
 		legend:{
 			display:false
 		},
        animation:false,
-       scales:{
-    	   xAxes : [{
-    		   stacked: true,//누적막대 그래프
-    		   display: false //그리드 선 제거
-    	   }],
-    	   yAxes : [{
-    		   stacked: true,//누적막대 그래프
-    		   display: false //그리드 선 제거
-    	   }]
-       },
-       maintainAspectRatio:false,
-       tooltips: {
-           enabled: false
-        }
+       maintainAspectRatio:false
 	},
 	data:{
 		labels:[],
-		datasets: [
-			{
-				label:'FuelLevel',
-				data:[79],
-				backgroundColor:'rgb(255, 205, 86)'
-			},
-			{
-				label:'',
-				data:[21],
-				backgroundColor:'#BDBDBD'
-			}
-		]
+		datasets: [{
+			data:[],
+			borderColor:"#3e95cd",
+			fill: false
+		}]
 	}});
 //main.jsp에서 changeTrip() onchange함수에서 호출 됨
-function getFuelBarChart(){
+function getMileChart(){
+	let mileTimeList = [];
+	let mileValueList = [];
 	console.log(carSelected,selectedTrip)
 	//console.log(carSelected)
 	$.ajax({
 		type:"post",
-		url:"/car/fuelBar",
+		url:"/car/milechart",
 		async: false,
 		data: {tripId: selectedTrip, carNum: carSelected },
 		success: function(data){
-			if(data[0]!==undefined){
-			var fuelTime = data[0].time;
-			var fuelValue= data[0].value;
+			for (let i = 0; i<data.length;i++){
+				mileTimeList.push(data[i].time);
+				mileValueList.push(data[i].value);
 			}
-			console.log("fuelValue:"+fuelValue)
-			fuelBar.data.datasets[0].label='fuelvalue';
-			fuelBar.data.datasets[0].data =[fuelValue];
-			fuelBar.data.datasets[1].data =[100-fuelValue];
-			fuelBar.update();
-			$('#voFuelLevel').text(fuelValue);
+			milechart.data.labels=mileTimeList;
+			milechart.data.datasets[0].data = mileValueList;
+			console.log("getFuelChartData");
+			milechart.update();
 		}, error:function(request,status,error){
 			alert("error:"+request.status);
 		}
 	})
 }
-
 setInterval(function(){
-	getFuelBarChart();
-	console.log("fuelBarupdate");
+	getMileChart();
+	console.log("mileChartupdate");
 },3000); //3000ms: 3초간격
-
 </script>

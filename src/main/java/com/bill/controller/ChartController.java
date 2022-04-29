@@ -47,15 +47,6 @@ public class ChartController {
 	private static final String Namespace = "com.bill.mapper.ChartMapper";
 
 
-	@RequestMapping(value = "gsonList", method = RequestMethod.GET, produces="text/plain;charset=UTF-8")
-
-	public @ResponseBody String gsonList(Locale locale, Model model) throws Exception {
-
-		Gson gson = new Gson();
-
-		List<ChartVO> list = chartDao.getRpm();
-
-		return gson.toJson(list);}
 
 	@RequestMapping(value = "fuelList", method = RequestMethod.GET, produces="text/plain;charset=UTF-8")
 
@@ -69,7 +60,6 @@ public class ChartController {
 	}
 	
 	@RequestMapping(value = "speedList", method = RequestMethod.GET, produces="text/plain;charset=UTF-8")
-
 	public @ResponseBody String speedList(Locale locale, Model model) throws Exception {
 
 		Gson gson_speed = new Gson();

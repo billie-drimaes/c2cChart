@@ -18,14 +18,6 @@
 		main.jsp 파일이 open 되면 subscribe가 실행된다. 
 	 -->
 	<jsp:include page="../mqtt/mqtt.jsp"/>
-	<%-- 
-	<!-- fuel Chart -->
-	<jsp:include page="/WEB-INF/views/car/chart/fuelchart.jsp"/>
-	<!-- rpmChart -->
-	<jsp:include page="/WEB-INF/views/car/chart/rpm_chart.jsp"/>	
-	<!-- donut chart (fuel level) -->	
-	<jsp:include page="/WEB-INF/views/car/chart/donut_17.jsp"/>
-	 --%>
 	
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" type="text/javascript"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
@@ -125,8 +117,10 @@ span
 			<div align="left" style="float:left; width:400px; height:210px; ">
 				<table>
 					<tr>
-						<td>
-							<canvas id=doughnut-chart></canvas>
+						<td style="text-align:center;">
+							FuelLevel<br><br>
+							<span id="voFuelLevel" style="float:left; font-size:1.5em;color:rgb(255, 205, 86);font-weight:bold;"></span>
+							<div style="width:370px; height:80px;"><canvas id=fuelBar></canvas></div>
 						</td>
 					</tr>
 				</table>
@@ -237,7 +231,7 @@ span
 					<table>
 						<tr>
 							<td >
-								<canvas id=fuelchart></canvas>
+								<canvas id=milechart></canvas>
 							</td>
 						</tr>
 					</table>
@@ -256,8 +250,10 @@ span
 	</div>
 </body>
 <script type="text/javascript">
+let carSelected;
+let selectedTrip;
 function changeCar(){
-	var carSelected = $('#carId').val();
+	carSelected = $('#carId').val();
 	var insDte = $('#insDte').val();
 	console.log("선택된 차량 : " + carSelected);
 	console.log("선택된 날짜 : " + insDte);
@@ -291,7 +287,7 @@ function changeCar(){
 	
 }
 function changeTrip(){
-	var selectedTrip = document.getElementById("tripId").value;
+	selectedTrip = document.getElementById("tripId").value;
 	var insDte = $('#insDte').val();
 	console.log("선택된 Trip ID : " + selectedTrip);
 	console.log("선택된 날짜 : " + $('#insDte').val() + '/' + insDte);
@@ -300,6 +296,7 @@ function changeTrip(){
 		url: "/car/json", 
 		async: false, 
 		data: {
+					carNum : carSelected,
 					tripId : selectedTrip, 
 					insDte : insDte
 		}, // 서버로 보낼 데이터 
@@ -331,6 +328,9 @@ function changeTrip(){
 					$('#voEndGps').text(data[i]["END_GPS"]);
 				})
 			}
+			getRpmChart();
+			getMileChart();
+			getFuelBarChart();
 		}, error:function(xhr) {
 			console.log(xhr.responseText);
 			alert("system doesn't proceed this process");
@@ -345,4 +345,10 @@ function changeDate(){
 	changeTrip();
 }
 </script>
-</html>
+<!-- fuel Chart -->
+<jsp:include page="/WEB-INF/views/car/chart/milechart.jsp"/>
+<!-- rpmChart -->
+<jsp:include page="/WEB-INF/views/car/chart/rpm_chart.jsp"/>
+<!-- donut chart (fuel level) -->
+<jsp:include page="/WEB-INF/views/car/chart/fuelchart.jsp"/>
+ </html>

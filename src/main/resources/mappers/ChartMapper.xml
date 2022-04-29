@@ -12,11 +12,7 @@
         </select>
         이렇게 해야 한다.
     -->
-    
-    <select id="getRpm" resultType="ChartVO">
-        SELECT insDte,time,RPM FROM mqttdata WHERE RPM NOT IN('','0');
-    </select>
-    
+  
     <!-- 18페이지 그래프 시간단위 선택에 따라 시간 단위별 평균값을 불러온다 -->
     <!-- max함수 이용시, column이 varchar로 되어있으면, +0을 붙여야 제대로된 값이 나온다  -->
     <select id="getGraphWithCondition" resultType="ChartVO" >

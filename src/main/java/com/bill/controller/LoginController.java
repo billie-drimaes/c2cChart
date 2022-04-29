@@ -30,10 +30,10 @@ public class LoginController {
     }
     
     @RequestMapping("login")
-    public ModelAndView login_check(@ModelAttribute UserVO vo, HttpSession session, @RequestParam Map<String, Object> param) {
+    public ModelAndView login_check(@ModelAttribute UserVO vo, HttpSession session) {
     	
     	String name = userService.loginCheck(vo, session);  
-    	System.out.println("param=>"+session);
+    	System.out.println("session=>"+session);
     	ModelAndView mav = new ModelAndView();
     	if (name != null) { // 로그인 성공 시
     		mav.setViewName("main/main"); // 뷰의 이름
