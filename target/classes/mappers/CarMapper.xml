@@ -69,6 +69,42 @@
 		   AND t1.insDte = IF( #{insDte} IS NULL OR #{insDte} = '' , t1.insDte, #{insDte})
 		   AND t3.userId = #{userId}
 	  GROUP BY t1.tripId 	  
-	
+ 	</select>
+ 	<select id="getRpm" resultType="ChartVO" >
+		SELECT 
+			time,
+			RPM AS value
+		FROM mqttdata 
+		WHERE obdNo= (
+			select obdNo from carInfo where carNo=#{carNum})
+			AND
+			tripId = #{tripId}
+			AND
+			RPM NOT IN('')
+ 	</select>
+ 	<select id="getMileage" resultType="ChartVO" >
+		SELECT 
+			time,
+			Fuel AS value
+		FROM mqttdata 
+		WHERE obdNo= (
+			select obdNo from carInfo where carNo=#{carNum})
+			AND
+			tripId = #{tripId}
+			AND
+			Fuel NOT IN('')
+ 	</select>
+ 	<select id="getFuelLevel" resultType="ChartVO" >
+		SELECT 
+			time,
+			Fuel AS value
+		FROM mqttdata
+		WHERE obdNo= (
+			select obdNo from carInfo where carNo=#{carNum})
+			AND
+			tripId = #{tripId}
+			AND
+			Fuel NOT IN('')
+		ORDER BY ID desc LIMIT 1
  	</select>
  </mapper>

@@ -3,7 +3,6 @@ package com.bill.vo;
 public class ChartVO {
 	
     private String time;
-    private String rpm;
     private String insDte;
     private String date;
     private String value;
@@ -13,12 +12,6 @@ public class ChartVO {
     }
     public void setTime(String time) {
         this.time = time;
-    }
-    public String getRpm() {
-        return rpm;
-    }
-    public void setRpm(String rpm) {
-        this.rpm = rpm;
     }
     public String getInsDte() {
         return insDte;

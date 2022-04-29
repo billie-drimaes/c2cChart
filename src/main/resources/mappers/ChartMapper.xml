@@ -12,31 +12,32 @@
         </select>
         이렇게 해야 한다.
     -->
-    
-    <select id="getRpm" resultType="ChartVO">
-        SELECT insDte,time,RPM FROM mqttdata WHERE RPM NOT IN('','0');
-    </select>
-    
+  
     <!-- 18페이지 그래프 시간단위 선택에 따라 시간 단위별 평균값을 불러온다 -->
     <!-- max함수 이용시, column이 varchar로 되어있으면, +0을 붙여야 제대로된 값이 나온다  -->
-    <select id="getSpeedWithPeriod" resultType="ChartVO" >
+    <select id="getGraphWithCondition" resultType="ChartVO" >
 		SELECT 
 			CASE
-				WHEN (#{period}='DATE') THEN DATE(insDte)
-				WHEN (#{period}='MONTH') THEN MONTH(insDte)
-				WHEN (#{period}='YEAR') THEN YEAR(insDte)
+				WHEN (#{dateUnit}='DATE') THEN DATE(insDte)
+				WHEN (#{dateUnit}='MONTH') THEN MONTH(insDte)
 			END AS date,
 			CASE
 				WHEN (#{column}='speed') THEN ROUND(AVG(speed),2)
 				WHEN (#{column}='mileage') THEN ROUND(AVG(fuel),2)
 				WHEN (#{column}='distance') THEN ROUND(MAX(driving_distance + 0),2)
 				WHEN (#{column}='tripDistance') THEN 'no data'
+				WHEN (#{column}='tripValue') THEN 'no data'
 				WHEN (#{column}='idling') THEN 'no data'
 				WHEN (#{column}='acceleration') THEN 'no data'
-				WHEN (#{column}='deceleration') THEN 'no data'
-				WHEN (#{column}='engineMisfire') THEN 'no data'
 			END AS value
 		FROM mqttdata 
+		WHERE obdNo= (
+			select obdNo from carInfo where carNo=#{carNum})
+			AND
+			CASE
+				WHEN (#{dateUnit}='MONTH') THEN insDte BETWEEN CONCAT(#{startDate},'/01') and CONCAT(#{endDate},'/31')
+				ELSE insDte BETWEEN #{startDate} and #{endDate}
+			END
 		GROUP BY date
     </select>
     

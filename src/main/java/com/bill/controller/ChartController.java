@@ -47,15 +47,6 @@ public class ChartController {
 	private static final String Namespace = "com.bill.mapper.ChartMapper";
 
 
-	@RequestMapping(value = "gsonList", method = RequestMethod.GET, produces="text/plain;charset=UTF-8")
-
-	public @ResponseBody String gsonList(Locale locale, Model model) throws Exception {
-
-		Gson gson = new Gson();
-
-		List<ChartVO> list = chartDao.getRpm();
-
-		return gson.toJson(list);}
 
 	@RequestMapping(value = "fuelList", method = RequestMethod.GET, produces="text/plain;charset=UTF-8")
 
@@ -69,7 +60,6 @@ public class ChartController {
 	}
 	
 	@RequestMapping(value = "speedList", method = RequestMethod.GET, produces="text/plain;charset=UTF-8")
-
 	public @ResponseBody String speedList(Locale locale, Model model) throws Exception {
 
 		Gson gson_speed = new Gson();
@@ -80,17 +70,20 @@ public class ChartController {
 	
     //statMain.jsp에서 그래프 시간단위를 받아와 그에따른 데이터 값을 불러온다.
 	@ResponseBody
-	@RequestMapping(value="/stat/time", method = RequestMethod.POST)
+	@RequestMapping(value="/stat/carStat", method = RequestMethod.POST)
 	public List<ChartVO> getChartList( HttpServletRequest request, @RequestParam Map<String, Object> param ) throws Exception {
 				
 		
-		HashMap<String, String> timeMap = new HashMap<String, String>();
-		timeMap.put("period", request.getParameter("period"));
-		timeMap.put("column", request.getParameter("column"));
-		System.out.println("select time unit and column:"+timeMap);
+		HashMap<String, String> carStatMap = new HashMap<String, String>();
+		carStatMap.put("dateUnit", request.getParameter("dateUnit"));
+		carStatMap.put("column", request.getParameter("column"));
+		carStatMap.put("carNum", request.getParameter("carNum"));
+		carStatMap.put("startDate", request.getParameter("startDate"));
+		carStatMap.put("endDate", request.getParameter("endDate"));
+		System.out.println("carStat condition:"+carStatMap);
 
 		
-		List<ChartVO> chartList = sqlSession.selectList(Namespace + ".getSpeedWithPeriod", timeMap);
+		List<ChartVO> chartList = sqlSession.selectList(Namespace + ".getGraphWithCondition", carStatMap);
 		System.out.println(chartList);
 		
 		return chartList;

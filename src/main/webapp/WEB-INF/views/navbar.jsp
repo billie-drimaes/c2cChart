@@ -18,17 +18,20 @@ a {
 
 #menu {
 	font:bold 16px "malgun gothic";
-	width:700px;
-	height:50px;
+	width:1600px;
+	height:30px;
 	color:black;
-	line-height: 50px; 
+	line-height: 40px; 
 	margin:0 auto;
 	text-align: center;
+	border-bottom: 1px solid #ccc;
+	border-top: 1px solid #ccc;
+	margin-left:80px;
 }
 
 #menu > ul > li {
 	float:left;
-	width:140px;
+	width:300px;
 	position:relative;
 }
 #menu > ul > li > ul {
@@ -46,6 +49,31 @@ a {
 	background: lightGray;
 	transition: ease 1s;
 	}
+#account{
+	float:left;
+	width:100px;
+	margin-left:20px;
+}
+#webName{
+	font-size:2.0em;
+	width:300px;
+	height:50px;
+	margin-left:700px;
+	margint-bottom:0px;
+	padding-left:100px;
+}
+#account_wrap > ul > li:last-child::before{
+	content:"|";
+	float:left;
+	margin-left:8px;
+	margin-right:-10px;
+}
+div
+{
+	/* border:1px solid red; */ 
+	padding: 0px 10px 10px 0px; 
+	
+} 
 </style>
  
 <!-- 
@@ -54,8 +82,32 @@ a {
 	inital-scale="1" : 초기 화면 배율을 1로 맞춘다. 
  -->
 <meta charset="UTF-8" name = "viewport" content="width=device-width", inital-scale="1">
-<header style="border-bottom: 1px solid #ccc; padding: 15px 0; text-align: left"> 
-	<div id="menu" style="margin-left: 100px;"> 
+<header style="text-align: left;">
+	<div class="top" style="height:70px; padding-top:15px; padding-bottom:0; width:1600px;">
+		<div align="left" id="account" style="float:left;">
+			<div style="border: 1px solid #ccc; font-size:0.8em; padding:5px;">
+			안녕하세요,<br>
+			<%
+			//세션의 정보는 Object타입으로 저장되어있음
+			//UserServiceImpl.java에서 session에 지정한 변수 가져오기
+			String name = (String) session.getAttribute("name");
+			out.print(name);
+			%>님
+			</div>
+			<div align="center" id="account_wrap">
+				<ul style="width:100px;font-size:0.5em;">
+	               <li style="float:left;"><a href="logout.do" class="find_text">로그아웃</a></li>
+	               <li><a href="/WEB-INF/views/myAccount.jsp" class="find_text">내정보</a></li>
+	           </ul>
+           </div>
+		</div>
+		<div id="webName">
+			<div>
+			Drimaes FMS
+			</div>
+		</div>
+	</div>
+	<div id="menu" style="margin-left: 100px;" align="center"> 
 		<ul> 
 			<li><a href='../main'>Main</a></li> 
 			<li><a href='../cars'>전체 차량</a>
@@ -73,6 +125,6 @@ a {
 			<li><a href='../monitoring'>안전 모니터링</a></li>
 			<li><a href='../account'>계정</a>
 			</li> 
-		</ul> 
+		</ul>
 	</div> 
 </header>
