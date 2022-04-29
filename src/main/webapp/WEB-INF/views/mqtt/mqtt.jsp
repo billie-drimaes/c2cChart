@@ -16,7 +16,8 @@
 		var mqtt;
 		var reconnectTimeout = 2000;
 		//var host ="61.42.251.202";
-		var host ="192.168.100.138";
+		var host ="192.168.12.21";
+		//var host ="wss:a6v8vus1k5k5m-ats.iot.ap-northeast-2.amazonaws.com/C2C-Mqtt"; 
 		var port = 9001;
 		
 		//callback function

@@ -71,10 +71,7 @@ a {
 				</ul>
 			</li> 
 			<li><a href='../monitoring'>안전 모니터링</a></li>
-			<li><a href='../monitoring'>계정</a>
-				<ul class="submenu">
-					<li><a href='../cars'>관리자페이지</a></li>
-				</ul>
+			<li><a href='../account'>계정</a>
 			</li> 
 		</ul> 
 	</div> 

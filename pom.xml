@@ -174,7 +174,21 @@
     		<artifactId>org.eclipse.paho.client.mqttv3</artifactId>
     		<version>1.2.2</version>
 		</dependency>
-                
+            
+        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-collections4 -->
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-collections4</artifactId>
+		    <version>4.1</version>
+		</dependency>
+		
+		<!-- http://tiles.apache.org/tags-tiles -->
+		<dependency>
+		    <groupId>org.apache.tiles</groupId>
+		    <artifactId>tiles-jsp</artifactId>
+		    <version>2.2.1</version>
+		</dependency>
+		
 	</dependencies>
     <build>
         <plugins>
