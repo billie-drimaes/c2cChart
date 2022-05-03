@@ -50,12 +50,12 @@ const fuelBar = new Chart(document.getElementById('fuelBar'),{
 		datasets: [
 			{
 				label:'FuelLevel',
-				data:[79],
+				data:[],
 				backgroundColor:'rgb(255, 205, 86)'
 			},
 			{
 				label:'',
-				data:[21],
+				data:[],
 				backgroundColor:'#BDBDBD'
 			}
 		]

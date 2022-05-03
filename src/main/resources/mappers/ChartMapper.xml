@@ -13,7 +13,7 @@
         이렇게 해야 한다.
     -->
   
-    <!-- 18페이지 그래프 시간단위 선택에 따라 시간 단위별 평균값을 불러온다 -->
+    <!-- 개별차량 통계 그래프 시간단위 선택에 따라 시간 단위별 평균값을 불러온다 -->
     <!-- max함수 이용시, column이 varchar로 되어있으면, +0을 붙여야 제대로된 값이 나온다  -->
     <select id="getGraphWithCondition" resultType="ChartVO" >
 		SELECT 
@@ -40,5 +40,41 @@
 			END
 		GROUP BY date
     </select>
-    
+
+    <!-- 전체차량 통계페이지에 사용될 데이터 셀렉트 / chartController에서 필요 변수값 받아옴-->    
+    <select id="getTotalChart" resultType="ChartVO" >
+   			SELECT 
+				CASE
+					WHEN (#{dateUnit}='DATE') THEN DATE(insDte)
+					WHEN (#{dateUnit}='MONTH') THEN MONTH(insDte)
+				END AS date,
+    	<if test='column.equals("tripCount")'>
+				COUNT(distinct tripId,obdNo) AS value
+			FROM mqttdata
+		</if>
+    	<if test='column.equals("totalDIstance")'>
+				SUM(tb.dist) AS value
+			FROM (select Max(m2.driving_distance+0) as dist, insDte
+					From mqttdata m2 
+					group by m2.tripId, m2.obdNo) tb
+		</if>
+    	<if test='column.equals("totalFuel")'>
+				SUM(tb.maxFuel - tb.minFuel) AS value
+			FROM (select Max(m2.fuel) as maxFuel, Min(m2.fuel) as minFuel, insDte 
+					From mqttdata m2 
+					group by m2.tripId,m2.obdNo) tb
+		</if>
+		<if test='column.equals("avgMileage")'>
+				AVG(tb.avgfuel) AS value
+			FROM (select AVG(m2.fuel) as avgfuel, insDte
+					From mqttdata m2 
+					group by m2.tripId,m2.obdNo) tb
+		</if>
+			WHERE 
+				CASE
+					WHEN (#{dateUnit}='MONTH') THEN insDte BETWEEN CONCAT(#{startDate},'/01') and CONCAT(#{endDate},'/31')
+					WHEN (#{dateUnit}='DATE') THEN insDte BETWEEN #{startDate} and #{endDate}
+				END
+			GROUP BY date
+    </select>
 </mapper>

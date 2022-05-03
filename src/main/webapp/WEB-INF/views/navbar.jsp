@@ -112,7 +112,7 @@ div
 			<li><a href='../main'>Main</a></li> 
 			<li><a href='../cars'>전체 차량</a>
 				<ul class="submenu">
-					<li><a href='../cars'>통계</a></li>
+					<li><a href='../carsStat'>통계</a></li>
 				</ul>
 			</li> 
 			<li><a href='../car'>개별 차량</a>

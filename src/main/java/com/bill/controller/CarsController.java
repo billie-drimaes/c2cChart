@@ -1,9 +1,12 @@
 package com.bill.controller;
 import java.net.InetAddress;
+import java.util.List;
 import java.util.Locale;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.bill.vo.CarMainVO;
 
 @Controller
 public class CarsController {
@@ -17,5 +20,12 @@ public class CarsController {
     	System.out.println("Host Address = [" + ip.getHostAddress() + "]");
 
         return "cars/main";
+    }
+    
+    //전체차량 - 통계페이지 호출
+    @RequestMapping("/carsStat")
+    public String carsStat(Locale locale, Model model) throws Exception{
+
+        return "cars/carsStat";
     }
 }
