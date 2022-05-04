@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="com.bill.mapper.MainMapper">
+ 	
+ 	<!-- 리스트 count 조회 -->
+ 	<select id="selectTotalCnt" parameterType="hashMap" resultType="int">
+		SELECT count(*) CNT FROM USER_CAR_INFO
+ 	</select>
+ 	
+ 	<!-- 리스트 조회 -->
+ 	<select id="selectList" parameterType="hashMap" resultType="hashMap">
+		SELECT CAR.carId,
+				 TRIP.StartT,
+				 TRIP.endT, 
+				 CAR.modelCode,
+		 		 MODEL.name modelName,
+				 if(TRIP.StartT IS NULL, '미운행', if(TRIP.EndT IS NULL, '운행중', '미운행')) STATUS,
+				 (SELECT TotalDistance FROM OBD_DATA WHERE vinCode = CAR.vinCode AND TotalDistance IS NOT NULL ORDER BY idx DESC LIMIT 1) distance,
+				 (SELECT CurLatitude FROM OBD_DATA WHERE VinCode = CAR.VinCode AND CurLatitude IS NOT NULL ORDER BY idx DESC LIMIT 1) latitude,
+				 (SELECT CurLongitude FROM OBD_DATA WHERE VinCode = CAR.VinCode AND CurLongitude IS NOT NULL ORDER BY idx DESC LIMIT 1) longitude
+		  FROM USER_CAR_INFO CAR
+	LEFT JOIN TRIP_INFO TRIP ON CAR.VinCode = TRIP.VinCode
+	LEFT JOIN CAR_CODE_MODEL MODEL ON MODEL.code = CAR.modelCode
+
+
+ 	</select>
+
+ </mapper>

@@ -8,10 +8,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import com.bill.dao.AccountDAO;
-import com.bill.dao.CarDAO;
 import com.bill.vo.AccountVO;
-import com.bill.vo.CarLogVO;
-import com.bill.vo.CarMainVO;
 
 @Service
 public class AccountServiceImpl implements AccountService {
