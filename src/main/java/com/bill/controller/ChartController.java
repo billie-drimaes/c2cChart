@@ -34,20 +34,20 @@ import com.bill.vo.ChartVO;
 @Controller
 public class ChartController {
 
-	@Autowired
-	ChartDAO chartDao;
-	@Autowired
-	speedDAO speedDao;
-    @Inject
-    private fuelService service;
-    
 	@Inject
 	private SqlSession sqlSession;
     
 	private static final String Namespace = "com.bill.mapper.ChartMapper";
 
 
-
+/*
+ * 	@Autowired
+	ChartDAO chartDao;
+	@Autowired
+	speedDAO speedDao;
+    @Inject
+    private fuelService service;
+    
 	@RequestMapping(value = "fuelList", method = RequestMethod.GET, produces="text/plain;charset=UTF-8")
 
 	public @ResponseBody String fuelList(Locale locale, Model model) throws Exception {
@@ -67,6 +67,7 @@ public class ChartController {
 		List<speedVO> list = speedDao.getSpeed();
 		return gson_speed.toJson(list);
 	}
+	*/
 	
     //statMain.jsp에서 그래프 시간단위를 받아와 그에따른 데이터 값을 불러온다.
 	@ResponseBody
@@ -87,7 +88,28 @@ public class ChartController {
 		System.out.println(chartList);
 		
 		return chartList;
-	}  	
+	}
+	
+    //carsStat.jsp에서 그래프 시간단위,항목 받아와 그에따른 데이터 값을 불러온다.
+	@ResponseBody
+	@RequestMapping(value="/stat/carsStat", method = RequestMethod.POST)
+	public List<ChartVO> getTotalChart( HttpServletRequest request, @RequestParam Map<String, Object> param ) throws Exception {
+				
+		
+		HashMap<String, String> carsStatMap = new HashMap<String, String>();
+		carsStatMap.put("dateUnit", request.getParameter("dateUnit"));
+		carsStatMap.put("column", request.getParameter("column"));
+		carsStatMap.put("startDate", request.getParameter("startDate"));
+		carsStatMap.put("endDate", request.getParameter("endDate"));
+		System.out.println("carStat condition:"+carsStatMap);
+
+		
+		List<ChartVO> totalChartList = sqlSession.selectList(Namespace + ".getTotalChart", carsStatMap);
+		System.out.println(totalChartList);
+		
+		return totalChartList;
+	}
+	
 
 	
 
