@@ -12,7 +12,7 @@
  	
  	<!-- 관리자 리스트 조회 -->
  	<select id="selectAdminList" parameterType="hashMap" resultType="hashMap">
-		SELECT * FROM ADMIN_INFO LIMIT 5 OFFSET ${offset}
+		SELECT * FROM ADMIN_INFO <!-- LIMIT 5 OFFSET ${offset} -->
  	</select>
 
 
@@ -23,7 +23,7 @@
  	
  	<!-- 관리자 리스트 조회 -->
  	<select id="selectDriverList" parameterType="hashMap" resultType="hashMap">
-		SELECT * FROM USER_INFO LIMIT 5 OFFSET ${offset}
+		SELECT * FROM USER_INFO <!-- LIMIT 5 OFFSET ${offset} -->
  	</select>
 
 
@@ -51,15 +51,18 @@
 			 ON B.code = UC.brandCode
 	 LEFT JOIN CAR_CODE_MODEL M
 			 ON M.code = UC.modelCode
+			AND M.brandCode = UC.brandCode
 	 LEFT JOIN CAR_CODE_MODEL_DETAIL DTL
 			 ON DTL.code = UC.modelDtlCode
+			AND DTL.modelCode = UC.modelCode
 	 LEFT JOIN FUEL_CODE F
 			 ON F.code = UC.fuelCode
+			AND F.modelDtlCode = UC.modelDtlCode
 	 LEFT JOIN ADMIN_INFO ADMIN 
 			 ON ADMIN.adminId = UC.ownerId
 	 LEFT JOIN USER_INFO USER
 			 ON USER.userId = UC.driverId
-		  LIMIT 5 OFFSET ${offset}
+		<!--  LIMIT 5 OFFSET ${offset} -->
  	</select>
  	
  </mapper>
