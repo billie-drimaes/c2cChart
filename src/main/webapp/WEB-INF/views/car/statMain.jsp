@@ -36,7 +36,17 @@ div
 			<select id="carNum" name="selectBox" style="width:400px; height:30px; margin-left:30px;" onchange="selectCar()">
    		  		<option>차량번호 선택</option>
       			<c:forEach var="info" items="${carList}" varStatus="i">
-         			<option value="${info.carNo}">${info.carNo}</option>
+      				<!-- daisy : carId 파라미터가 있을 경우 값이 selected 되도록 한다.  -->
+      				<c:set var="carId" value="${carId }"/>
+      				<c:set var="carNo" value="${info.carNo }"/>
+	      			<c:choose>
+	      				<c:when test="${carId eq carNo }">
+		      				<option value="${info.carNo}" selected="selected">${info.carNo}</option>
+	      				</c:when>
+		      			<c:otherwise>
+		         			<option value="${info.carNo}">${info.carNo}</option>
+		        		</c:otherwise>
+	      			</c:choose>
       			</c:forEach>
          </select>
 		</div>
@@ -96,6 +106,19 @@ let column;
 let startDate;
 let endDate;
 
+function getParameter(name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)")
+    var results = regex.exec(location.search);
+    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+
+// daisy : carId 파라미터 값과 선택된 차량번호 값이 일치하는 경우, 차량번호 선택 셀렉트 박스의 onChange 이벤트를 실행 시킨다. 
+var carId = getParameter("carId");
+var carNum = $("#carNum").val();
+if(carId == carNum ) {
+	selectCar();
+}
 function selectCar(){
 	carSelected = $('#carNum').val();
 	//선택된 차량이 드롭다운 아래 출력되도록함.

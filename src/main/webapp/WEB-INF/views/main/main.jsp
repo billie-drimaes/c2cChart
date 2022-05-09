@@ -29,7 +29,7 @@
 				</select>
 			</div>
 			<div style="float:left;" class="search_box">
-				<input type="text" placeholder="검색해주세요." style="width:300px; height:25px;">
+				<input type="text" placeholder="검색해주세요." style="width:300px; height:25px;" id="searchBox">
 			</div>
 			<span id="payload"></span>
 		</div>
@@ -49,7 +49,7 @@
 					<c:forEach var="i" items="${list }">
 						<tr>
 							<td><span id="carId">${i.carId }</span></td>
-							<td><span id="status">${i.STATUS }</span></td>
+							<td><span id="status" name="status">${i.STATUS }</span></td>
 							<td><span id="model">${i.modelName }</span></td>
 							<td><span id="distance">${i.distance }</span></td>
 							<td>
@@ -57,10 +57,14 @@
 								<span id="longitude">${i.longitude }</span>
 							</td>
 							<td>
-								<input type="button" value="현황" style="width:100px" >
-								<input type="button" value="예약" style="width:100px">
-								<input type="button" value="통계" style="width:100px">
-								<input type="button" value="장비" style="width:100px">
+								<form action="carStat" method="get">
+									<input hidden="true" name="carId" value="${i.carId }">
+									<input type="button" value="현황" style="width:100px" >
+									<input type="button" value="예약" style="width:100px">
+									<input type="submit" value="통계" style="width:100px" onclick="window.open('/carStat?carId='" + ${i.carId } + "'")"><!-- 새로운 탭에 open -->
+									<!-- <input type="button" value="통계" style="width:100px" onclick="location.href='/carStat'">현재 탭에 화면 변경 -->
+									<input type="button" value="장비" style="width:100px">
+								</form>
 							</td>
 						</tr>
 						

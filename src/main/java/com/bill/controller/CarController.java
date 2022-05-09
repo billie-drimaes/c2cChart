@@ -73,12 +73,14 @@ public class CarController {
     	return "car/main";
     }
     //개별차량 - 통계페이지 호출
-    @RequestMapping("/carStat")
-    public String stat(Locale locale, Model model) throws Exception{
+    @RequestMapping(value="/carStat", method = RequestMethod.GET)
+    public String stat(Locale locale, Model model, String carId) throws Exception{
 
+    	System.out.println("parameter..." + carId);
     	List<CarMainVO> carList = service.selectCar();
 
        model.addAttribute("carList", carList);
+       model.addAttribute("carId", carId);
 
         return "car/statMain";
     }
