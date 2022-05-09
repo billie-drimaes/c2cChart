@@ -30,18 +30,21 @@ public class LoginController {
     }
     
     @RequestMapping("login")
-    public ModelAndView login_check(@ModelAttribute UserVO vo, HttpSession session) {
+    public String login_check(@ModelAttribute UserVO vo, HttpSession session, Model mav) {
     	
     	String name = userService.loginCheck(vo, session);  
     	System.out.println("session=>"+session);
-    	ModelAndView mav = new ModelAndView();
+//    	ModelAndView mav = new ModelAndView();
+    	
     	if (name != null) { // 로그인 성공 시
-    		mav.setViewName("main/main"); // 뷰의 이름
+    		//mav.setViewName("main/main"); // 뷰의 이름
+    		return "redirect:main";
     	} else { // 로그인 실패 시
-    		mav.setViewName("login/login"); 		
-    		mav.addObject("message", "error");
+    		//mav.setViewName("login/login"); 		
+    		//mav.addObject("message", "error");
+    		mav.addAttribute("message", "error");
+    		return "login/login";
          }
-        return mav;
        }
     
     @RequestMapping("logout.do")
