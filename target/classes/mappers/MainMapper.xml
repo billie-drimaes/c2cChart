@@ -24,6 +24,12 @@
 		  FROM USER_CAR_INFO CAR
 	LEFT JOIN TRIP_INFO TRIP ON CAR.VinCode = TRIP.VinCode
 	LEFT JOIN CAR_CODE_MODEL MODEL ON MODEL.code = CAR.modelCode
+	<if test="searchType=='carId'">
+		 WHERE  CAR.carId LIKE CONCAT('%', IFNULL (#{searchBox}, CAR.carId), '%') 
+	</if>
+	<if test="searchType=='model'">
+		 WHERE  MODEL.name LIKE CONCAT('%', IFNULL (#{searchBox}, MODEL.name), '%') 
+	</if>
 
 
  	</select>
