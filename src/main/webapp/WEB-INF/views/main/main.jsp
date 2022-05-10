@@ -69,7 +69,7 @@
 		
 		<!-- 두번째 라인 -->
 		<div align="left" style="float:left; width:100%;">
-			<div align="left" style="float:left; width:100%; heightwidth: 100%; height: 100%; align-content: center; padding: 0px 10px 10px 0px;">
+			<div align="left" style="float:left; width: 100%; height: 100%; align-content: center; padding: 0px 10px 10px 0px;">
 				<table style="float:left; ">
 					<tr>
 						<th>차량번호</th>
