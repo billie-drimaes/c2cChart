@@ -119,7 +119,7 @@ div
 				<ul class="submenu">
 					<li><a href='../car'>모니터링</a></li>
 					<li><a href='../carStat'>통계</a></li>
-					<li><a href='../car'>보고서</a></li>
+					<li><a href='../carReport'>보고서</a></li>
 				</ul>
 			</li> 
 			<li><a href='../monitoring'>안전 모니터링</a></li>

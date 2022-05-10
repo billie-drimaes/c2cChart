@@ -85,10 +85,10 @@ function getFuelBarChart(){
 		}
 	})
 }
-
+/*
 setInterval(function(){
 	getFuelBarChart();
 	console.log("fuelBarupdate");
 },3000); //3000ms: 3초간격
-
+*/
 </script>

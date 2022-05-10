@@ -79,7 +79,19 @@ let column;
 let startDate;
 let endDate;
 
-
+//월 형식(yyyy/mm) 맞추기 위한 함수 생성
+function monthFormat(month){
+	var month_plus;
+	var mm;
+	month_plus = ++month;
+	console.log("month_plus",month_plus)
+	if (month_plus<10){
+		mm = '0'+month_plus;
+	}else{
+		mm = month_plus;
+	}
+	return mm
+}
 //datepicker 삽입 function, 위의 라디오박스에서 월/일 선택결과에 따라 달력이 달라짐
 function dateUnit(unit) {
 	dateUnitSelected = unit.value;
@@ -95,7 +107,7 @@ function dateUnit(unit) {
 		            var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
 		            var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
 		            $(this).val($.datepicker.formatDate('MM yy', new Date(year, month, 1)));
-		            startDate = year+"/"+(++month)
+		            startDate = year+"/"+ monthFormat(month);
 		        }
 		    });
 		  	$("#datePicker_to").datepicker({
@@ -107,7 +119,7 @@ function dateUnit(unit) {
 		            var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
 		            var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
 		            $(this).val($.datepicker.formatDate('MM yy', new Date(year, month, 1)));
-		            endDate = year+"/"+(++month)
+		            endDate = year+"/"+ monthFormat(month)
 		        }
 		     });
 		    $("#datePicker_from, #datePicker_to").focus(function () {

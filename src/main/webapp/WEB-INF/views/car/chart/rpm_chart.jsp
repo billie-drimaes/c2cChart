@@ -69,8 +69,4 @@ function getRpmChart(){
 		}
 	})
 }
-setInterval(function(){
-	getRpmChart();
-	console.log("rpmChartupdate");
-},3000); //3000ms: 3초간격
 </script>

@@ -99,6 +99,14 @@ public class CarController {
     	
     	return "car/log";
     }
+	@GetMapping("/carReport")
+    // model 안에 request가 있다. model에 데이터를 저장하면 request에 저장된다. 
+    public String carReport(Model model) throws Exception {
+    	List<CarMainVO> carList = service.selectCar();
+    	model.addAttribute("carList", carList);
+    	
+    	return "car/report";
+    }
 	/*
 	 * 차량번호의 트립아이디 리스트를 가져온다.
 	*/
@@ -183,17 +191,14 @@ public class CarController {
 	@ResponseBody
 	@RequestMapping(value="/car/milechart", method = RequestMethod.POST)
 	public List<ChartVO> getMileChartList( HttpServletRequest request, @RequestParam Map<String, Object> param ) throws Exception {
-				
-		
+						
 		HashMap<String, String> mileMap = new HashMap<String, String>();
 		mileMap.put("tripId", request.getParameter("tripId"));
 		mileMap.put("carNum", request.getParameter("carNum"));
 		//System.out.println("/car/milechart Mileage =>"+mileMap);
-
 		
 		List<ChartVO> mileChartList = sqlSession.selectList(Namespace + ".getMileage", mileMap);
-		//System.out.println(mileChartList);
-		
+		//System.out.println(mileChartList);		
 		return mileChartList;
 	} 
 }

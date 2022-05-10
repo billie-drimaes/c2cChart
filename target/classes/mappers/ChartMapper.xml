@@ -72,7 +72,7 @@
 		</if>
 			WHERE 
 				CASE
-					WHEN (#{dateUnit}='MONTH') THEN insDte BETWEEN CONCAT(#{startDate},'/01') and CONCAT(#{endDate},'/31')
+					WHEN (#{dateUnit}='MONTH') THEN DATE_FORMAT(insDte,'%Y/%m') BETWEEN #{startDate} and #{endDate}
 					WHEN (#{dateUnit}='DATE') THEN insDte BETWEEN #{startDate} and #{endDate}
 				END
 			GROUP BY date

@@ -69,8 +69,4 @@ function getMileChart(){
 		}
 	})
 }
-setInterval(function(){
-	getMileChart();
-	console.log("mileChartupdate");
-},3000); //3000ms: 3초간격
 </script>

@@ -165,7 +165,7 @@ span
 				<div align="left" style="width:100%">
 					<button style="width:49%; float:left" onclick="location.href='log'">Log</button>
 					&nbsp;
-					<button style="width:49%; float:right">Report</button>
+					<button style="width:49%; float:right" onclick="location.href='carReport'">Report</button>
 				</div>
 				<div style="padding:0px 0px 0px 0px; width:400px; height:100%;">
 					<table style="float:left; width:100%; height:176px;">
@@ -351,4 +351,12 @@ function changeDate(){
 <jsp:include page="/WEB-INF/views/car/chart/rpm_chart.jsp"/>
 <!-- donut chart (fuel level) -->
 <jsp:include page="/WEB-INF/views/car/chart/fuelchart.jsp"/>
+<script>
+setInterval(function(){
+	getFuelBarChart();
+	getMileChart();
+	getRpmChart();
+	console.log("Chartupdate");
+},60000); //3000ms: 3초간격
+</script>
  </html>
