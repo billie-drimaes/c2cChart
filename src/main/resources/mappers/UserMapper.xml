@@ -5,7 +5,31 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 <mapper namespace="com.bill.mapper.UserMapper">
 	 <select id="login_check" resultType="String">
 	  select userName
-	  from userInfo
+	  from USER_INFO
 	  where userId=#{userId} and password=#{password}
 	 </select>
+	 
+	 <select id="idCheck" resultType="int">
+	 	SELECT count(*)
+	 	FROM USER_INFO
+	 	WHERE userId=#{userId}
+	 </select>
+	 
+	 <insert id="user_register">
+	 	INSERT INTO USER_INFO(
+	 		userId,
+	 		password,
+	 		userName,
+	 		birthDate,
+	 		email,
+	 		phoneNumber,
+ 			sleepYN) VALUES(
+	 		#{userId},
+	 		#{password},
+	 		#{userName},
+	 		#{birthDate},
+	 		#{email},
+	 		#{phoneNumber},
+	 		'N')
+	 </insert>
 </mapper>

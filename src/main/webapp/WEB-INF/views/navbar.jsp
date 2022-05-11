@@ -96,7 +96,7 @@ div
 			</div>
 			<div align="center" id="account_wrap">
 				<ul style="width:100px;font-size:0.5em;">
-	               <li style="float:left;"><a href="logout.do" class="find_text">로그아웃</a></li>
+	               <li style="float:left;"><a href="../logout.do" class="find_text">로그아웃</a></li>
 	               <li><a href="/WEB-INF/views/myAccount.jsp" class="find_text">내정보</a></li>
 	           </ul>
            </div>

@@ -27,8 +27,6 @@ import com.google.gson.Gson;
 import com.bill.dao.ChartDAO;
 import com.bill.service.fuelService;
 import com.bill.vo.fuelVO;
-import com.bill.dao.speed.speedDAO;
-import com.bill.vo.speed.speedVO;
 import com.bill.vo.ChartVO;
 
 @Controller
