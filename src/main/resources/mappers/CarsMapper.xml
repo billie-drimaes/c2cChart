@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="com.bill.mapper.CarsMapper">
+ 	
+ 	<!-- Cars 조회 -->
+ 	<select id="selectCars" parameterType="hashmap" resultType="CarsMainVO" >
+		WITH OBD1 AS
+		(
+			SELECT max(idx) idx , VinCode
+			  FROM OBD_DATA 
+		    WHERE TripRuntime IS NOT NULL 
+		      AND idx
+		 GROUP BY VinCode
+		 ORDER BY idx DESC
+		), OBD2 AS
+		(
+			SELECT max(idx) idx , VinCode
+			  FROM OBD_DATA 
+		    WHERE CurLatitude IS NOT NULL 
+		 GROUP BY VinCode
+		 ORDER BY idx desc
+		), OBD3 AS 
+		(
+			SELECT max(idx) idx , VinCode
+			  FROM OBD_DATA 
+		    WHERE Speed IS NOT NULL 
+		 GROUP BY VinCode
+		 ORDER BY idx DESC 
+		)
+		
+		SELECT 
+				 TRIP.VinCode ,
+				 CAR.carId,
+				 OBD_A.TripRuntime,
+				 OBD_A.TripDistance,
+				 OBD_B.CurLatitude,
+				 OBD_B.CurLongitude,
+				 OBD_C.Speed
+		
+		  FROM TRIP_INFO TRIP
+		LEFT JOIN 
+					OBD_DATA OBD_A 
+					 ON OBD_A.VinCode = TRIP.VinCode
+					AND OBD_A.idx IN (SELECT idx FROM OBD1) 
+		LEFT JOIN 
+					OBD_DATA OBD_B 
+					 ON OBD_B.VinCode = TRIP.VinCode
+					AND OBD_B.idx IN (SELECT idx FROM OBD2)
+		LEFT JOIN 
+					OBD_DATA OBD_C 
+					 ON OBD_C.VinCode = TRIP.VinCode
+					AND OBD_C.idx IN (SELECT idx FROM OBD3)								
+		LEFT JOIN 
+					USER_CAR_INFO CAR 
+					  ON CAR.VinCode = TRIP.VinCode					
+		 WHERE 1=1
+		   AND TRIP.endT IS NULL 
+		   AND CAR.carId = IFNULL( #{searchId}, CAR.carId ) 
+		
+				 
+		   
+		
+		 
+ 	</select>
+ 	
+ </mapper>

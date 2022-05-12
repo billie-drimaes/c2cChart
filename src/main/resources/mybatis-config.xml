@@ -7,6 +7,7 @@
             <typeAlias type="com.bill.vo.fuelVO" alias="fuelVO"/>
             <typeAlias type="com.bill.vo.ChartVO" alias="ChartVO"/>
             <typeAlias type="com.bill.vo.CarMainVO" alias="CarMainVO"/>
+            <typeAlias type="com.bill.vo.CarsMainVO" alias="CarsMainVO"/>
             <typeAlias type="com.bill.vo.CarLogVO" alias="CarLogVO"/>
             <typeAlias type="com.bill.vo.UserVO" alias="UserVO"/>
         </typeAliases>
