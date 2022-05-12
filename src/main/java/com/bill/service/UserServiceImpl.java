@@ -28,5 +28,17 @@ public class UserServiceImpl implements UserService{
 	public void logout(HttpSession session) {
 	 session.invalidate(); // 세션 초기화
 	 }
+	
+	@Override
+	public int idCheck(String userId) throws Exception{
+		int idCount = userDao.idCheck(userId);
+
+		 return idCount; 
+	}
+	
+	@Override
+	public void register(UserVO uservo) throws Exception{
+		userDao.register(uservo);	
+	}
 
 }

@@ -96,8 +96,8 @@ th{
 		<div align="center" class="report">
 			<!-- 두번째 라인 -->
 			<div align="center" class="contents" style="float:left; width:90%;margin-left:50px; height:250px; overflow: auto;">
-				<div align="left" style="float:left; width:750px; height:90%;">
-					<table style="float:left;">
+				<div align="left" style="float:left; width:780px; height:90%;">
+					<table style="float:left; width:760px;">
 						<tr>
 							<th colspan="2">Trip 
 							<span id="voReportTrip"></span> Report</th>
@@ -314,7 +314,7 @@ function createPdf() { //이미지를 pdf로 만들기
 
 	var lists = document.querySelectorAll("div.contents"),//div.report:not(div.button) : button을 제외한 나머지 report class 내용만 가져옴
 			deferreds = [],
-			doc = new jsPDF("p", "mm", "a4"),//가로방향: jsPDF("l", "mm", "a4"
+			doc = new jsPDF("l", "mm", "a4"),//가로방향: jsPDF("l", "mm", "a4"
 			listsLeng = lists.length;
 			console.log(lists)
 
@@ -354,14 +354,14 @@ function createPdf() { //이미지를 pdf로 만들기
 }
 		
 function generateCanvas(i, doc, deferred, curList){ //페이지를 이미지로 만들기
-	var pdfWidth = $(curList).outerWidth() * 0.2645, //px -> mm로 변환
-		pdfHeight = $(curList).outerHeight() * 0.2645,
-		heightCalc = (contWidth * pdfHeight / pdfWidth)*1.3; //비율에 맞게 높이 조절
+	var pdfWidth = $(curList).outerWidth() * 0.2645; //px -> mm로 변환
+	var	pdfHeight = $(curList).outerHeight() * 0.2645;
+	var	heightCalc = (contWidth * pdfHeight / pdfWidth); //비율에 맞게 높이 조절
 		html2canvas(curList).then(
 			function (canvas) {
-				var img = canvas.toDataURL('image/jpeg', 1.0); //이미지 형식 지정
-				renderedImg.push({num:i, image:img, height:heightCalc}); //renderedImg 배열에 이미지 데이터 저장(뒤죽박죽 방지)     
-				deferred.resolve(); //결과 보내기
+					var img = canvas.toDataURL('image/jpeg', 1.0); //이미지 형식 지정
+					renderedImg.push({num:i, image:img, height:heightCalc}); //renderedImg 배열에 이미지 데이터 저장(뒤죽박죽 방지)     
+					deferred.resolve(); //결과 보내기
 				}
 		);
 }

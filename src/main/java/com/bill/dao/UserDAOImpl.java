@@ -19,5 +19,14 @@ public class UserDAOImpl implements UserDAO {
 	public String loginCheck(UserVO vo) {
 		return sqlSession.selectOne(Namespace+".login_check", vo);
 	}
+	@Override
+	public int idCheck(String userId) throws Exception{
+		return sqlSession.selectOne(Namespace+".idCheck", userId);
+	}
+	
+	@Override
+	public void register(UserVO uservo) throws Exception{
+		sqlSession.insert(Namespace+".user_register", uservo);
+	}
 
 }

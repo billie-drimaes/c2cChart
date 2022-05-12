@@ -289,7 +289,7 @@
 		</div>
 	</div>
 	<div>
-		<input type="button" class="btn" value="관리자 신규 등록">
+		<input type="button" class="btn" value="관리자 신규 등록" onclick="location.href='account/managerRegister'">
 		<input type="button" class="btn" value="운전자 신규 등록">
 		<input type="button" class="btn" value="차량 신규 등록">
 		<input type="button" class="btn" value="수 정">

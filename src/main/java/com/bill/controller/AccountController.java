@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.bill.service.AccountService;
 import com.bill.util.PagingUtil;
 import com.bill.vo.AccountVO;
+import com.bill.vo.CarMainVO;
 
 @Controller
 @RequestMapping( value = "/account" )
@@ -72,6 +73,12 @@ public class AccountController {
     	*/
     	
        return "account/main";
+    }
+	
+	@GetMapping(value = "/managerRegister")
+    public String managerRegister(Locale locale, Model model) throws Exception{
+
+        return "account/managerRegister";
     }
 	
 	@ResponseBody
