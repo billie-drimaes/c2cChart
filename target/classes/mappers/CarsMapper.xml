@@ -6,7 +6,7 @@
  <mapper namespace="com.bill.mapper.CarsMapper">
  	
  	<!-- Cars 조회 -->
- 	<select id="selectCars" parameterType="hashmap" resultType="CarsMainVO" >
+ 	<select id="selectCars" parameterType="map" resultType="CarsMainVO" >
 		WITH OBD1 AS
 		(
 			SELECT max(idx) idx , VinCode
@@ -58,7 +58,7 @@
 					  ON CAR.VinCode = TRIP.VinCode					
 		 WHERE 1=1
 		   AND TRIP.endT IS NULL 
-		   AND CAR.carId = IFNULL( #{searchId}, CAR.carId ) 
+		   AND CAR.carId = IFNULL( IF(#{searchId} = '', NULL, #{searchId}) , CAR.carId ) 
 		
 				 
 		   

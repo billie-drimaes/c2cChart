@@ -19,7 +19,7 @@ public class CarsDAOImpl implements CarsDAO{
 	public List<CarsMainVO> selectCars(Map<String, Object> param) throws Exception {
 		// TODO Auto-generated method stub
 		System.out.println("param==> " + param);
-		return sqlSession.selectList(Namespace+".selectCars");
+		return sqlSession.selectList(Namespace+".selectCars", param);
 	}
     
 }
