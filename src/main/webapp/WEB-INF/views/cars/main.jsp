@@ -26,7 +26,6 @@
 				console.log("success search data");
 				console.log("data.." + data["searchList"].length);
 				var body = ''; 
-				var foot = '';
 				if(data["searchList"].length > 0) {
 					$(data["searchList"]).each(function(i){
 						body += '<tr>' 
@@ -36,12 +35,8 @@
 							 	+ '</tr>';
 					})
 				}
-			 	foot += '<tr>'
-				 			+ '<td colspan="3" align="center">'	+ '총 ' +  data["searchList"].length + '대 운행 중' + '</td>'
-		 			+ '</tr>';
 		 			
 			 	$('#tbody').html(body);
-			 	$('#tfoot').html(foot);
 
 			 	
 			}, error: function(xhr) {
@@ -74,16 +69,16 @@
 		</div>
 		<!-- 라인2. -->
 		<div align="left" style="width:100%;">
-			<div align="left" style="float:left; width: 35%; height: 100%; align-content: left; ">
-				<table style="float:left; width:100%">
-					<thead>
+			<div align="left" style="float:left; width: 35%; height:500px; align-content: left; overflow: scroll ">
+				<table style="float:left; width:100%;">
+					<thead style="">
 						<tr>
 							<th>차량번호</th>
 							<th>운행시간</th>
 							<th>운행거리</th>
 						</tr>
 					</thead>
-					<tbody id="tbody">
+					<tbody id="tbody" style="overflow: auto;">
 						<c:forEach var="i" items="${list }">
 							<tr>
 								<td><span>${i.carId }</span></td>
@@ -94,12 +89,15 @@
 					</tbody>
 					<tfoot id="tfoot">	
 						<tr>
-							<td colspan="3" align="center">총 <span>${listSize }</span>대 운행 중</td>
+							<td colspan="3" align="center">총 <span>${list[0].cnt }</span>대 운행 중</td>
 						</tr>				
 					</tfoot>
 				</table>
 			</div>
-			<div align="left" style="float:left; width: 60%; height: 100%; align-content: center; ">map</div>
+			<!-- map -->
+			<div align="left" style="float:left; width: 60%; height: 100%; align-content: center; border:1px solid gray">
+				map
+			</div>
 		</div>
 	</div>
 </body>

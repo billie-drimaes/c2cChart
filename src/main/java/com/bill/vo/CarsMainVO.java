@@ -5,6 +5,7 @@ package com.bill.vo;
 */
 public class CarsMainVO {
 
+	private int cnt;
 	private String VinCode;
 	private String carId;
 	private String TripRuntime;
@@ -14,6 +15,12 @@ public class CarsMainVO {
 	private String Speed;
 	
 	
+	public int getCnt() {
+		return cnt;
+	}
+	public void setCnt(int cnt) {
+		this.cnt = cnt;
+	}
 	public String getCurLatitude() {
 		return CurLatitude;
 	}

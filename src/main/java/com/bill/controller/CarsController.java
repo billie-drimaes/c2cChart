@@ -30,9 +30,10 @@ public class CarsController {
     	System.out.println("Host Address = [" + ip.getHostAddress() + "]");
 
     	modelMap.addAttribute("list", service.selectCars(param));
-    	modelMap.addAttribute("listSize", modelMap.size());
-    	System.out.println("list..." + modelMap.get("list"));
-    	
+    	String i = "ca";
+    	String j = "ba"; 
+    	System.out.println("i=>" + (int)i.charAt(1));
+    	System.out.println("j=>" + (int)j.charAt(0));
        return "cars/main";
     }
     
